@@ -1,0 +1,357 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #111;
+    color: #fff;
+    scroll-behavior: smooth;
+}
+
+/* NAVBAR */
+.navbar {
+    transition: 0.4s;
+    padding: 15px 0;
+}
+
+.navbar.scrolled {
+    background: #000 !important;
+    padding: 8px 0;
+}
+
+.navbar-brand img {
+    height: 60px;
+}
+
+.nav-link {
+    color: #fff !important;
+    margin-left: 20px;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.nav-link:hover {
+    color: #D4AF37 !important;
+}
+
+/* HERO */
+.carousel-item {
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.overlay {
+    background: rgba(0,0,0,0.65);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.hero-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.hero-content h1 {
+    font-size: 55px;
+    font-weight: 700;
+    color: #D4AF37;
+}
+
+.btn-gold {
+    background: #D4AF37;
+    color: #000;
+    font-weight: 600;
+    padding: 10px 25px;
+}
+
+.btn-gold:hover {
+    background: #f1c40f;
+}
+
+/* SECTION */
+.section {
+    padding: 80px 0;
+}
+
+.section-title h2 {
+    color: #D4AF37;
+    margin-bottom: 40px;
+}
+
+/* PROPERTY */
+.property-card {
+    background: #1a1a1a;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: 0.4s;
+}
+
+.property-card:hover {
+    transform: translateY(-10px);
+}
+
+.property-card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+}
+
+.property-card .content {
+    padding: 20px;
+}
+
+/* FOOTER */
+footer {
+    background: #000;
+    padding: 30px 0;
+    margin-top: 40px;
+}
+
+@media(max-width:768px) {
+    .hero-content h1 {
+        font-size: 30px;
+    }
+}
+
+/* ===============================
+   PREMIUM ABOUT SECTION
+================================= */
+
+.about-section {
+    position: relative;
+    background: #111; /* keep original theme */
+    padding: 120px 0;
+    overflow: hidden;
+}
+
+/* Soft Logo Watermark */
+.about-section::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 650px;
+    height: 650px;
+    background: url('../images/logo.jpg') no-repeat center;
+    background-size: contain;
+    opacity: 0.04; /* very soft luxury effect */
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+/* Title */
+.section-title {
+    font-size: 42px;
+    font-weight: 700;
+    color: #D4AF37;
+    letter-spacing: 1px;
+    position: relative;
+    z-index: 2;
+}
+
+/* Gold Divider Line */
+.gold-divider {
+    width: 90px;
+    height: 4px;
+    background: linear-gradient(to right, #D4AF37, #f1c40f);
+    margin: 20px auto 35px auto;
+    border-radius: 5px;
+    position: relative;
+    z-index: 2;
+}
+
+/* Paragraph Styling */
+.about-text {
+    max-width: 750px;
+    margin: 0 auto;
+    font-size: 18px;
+    line-height: 1.9;
+    color: #ccc;
+    position: relative;
+    z-index: 2;
+}
+
+/* Highlight Location */
+.about-text span {
+    color: #D4AF37;
+    font-weight: 600;
+}
+
+/* Subtle Hover Glow */
+.about-section:hover .section-title {
+    text-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .section-title {
+        font-size: 30px;
+    }
+
+    .about-text {
+        font-size: 16px;
+        padding: 0 15px;
+    }
+
+    .about-section::before {
+        width: 400px;
+        height: 400px;
+    }
+}
+
+/* ================= SERVICES SECTION ================= */
+
+.services-section {
+    background: #111;
+    padding: 120px 0;
+}
+
+/* Service Card */
+.service-card {
+    background: #1a1a1a;
+    border-radius: 15px;
+    overflow: hidden;
+    transition: 0.4s ease;
+    border: 1px solid rgba(212,175,55,0.2);
+}
+
+.service-img {
+    overflow: hidden;
+}
+
+.service-img img {
+    width: 100%;
+    height: 230px;
+    object-fit: cover;
+    transition: 0.6s;
+}
+
+.service-content {
+    padding: 25px;
+}
+
+.service-content h4 {
+    color: #D4AF37;
+    font-weight: 600;
+}
+
+.service-content p {
+    color: #ccc;
+    font-size: 15px;
+    margin-top: 10px;
+}
+
+/* Hover Effects */
+.service-card:hover {
+    transform: translateY(-12px);
+    border-color: #D4AF37;
+}
+
+.service-card:hover img {
+    transform: scale(1.1);
+}
+
+/* ================= MEDIA SLIDER ================= */
+
+.media-slider-section {
+    background: #0d0d0d;
+    padding: 100px 0;
+}
+
+.media-slider-section img,
+.media-slider-section video {
+    height: 500px;
+    object-fit: cover;
+    border-radius: 15px;
+    transition: 0.5s;
+}
+
+/* Hover zoom effect */
+.carousel-item:hover img {
+    transform: scale(1.05);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .media-slider-section img,
+    .media-slider-section video {
+        height: 300px;
+    }
+}
+
+/* ================= FOOTER SECTION ================= */
+
+.footer-section {
+    background: #000;
+    padding: 80px 0 30px 0;
+    color: #ccc;
+}
+
+.footer-title {
+    color: #D4AF37;
+    font-weight: 600;
+    margin-bottom: 20px;
+    font-size: 20px;
+}
+
+.footer-section p {
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.footer-list {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-list li {
+    margin-bottom: 10px;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.footer-list li:hover {
+    color: #D4AF37;
+    transform: translateX(5px);
+}
+
+/* Bottom Bar */
+.footer-bottom {
+    border-top: 1px solid rgba(212,175,55,0.2);
+    margin-top: 40px;
+    padding-top: 20px;
+    font-size: 13px;
+    color: #aaa;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .footer-section {
+        text-align: center;
+    }
+}
+
+/* ================= CUSTOM CURSOR EFFECT ================= */
+
+.cursor-circle {
+    position: fixed;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    pointer-events: none;
+    background: rgba(212, 175, 55, 0.4);
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.7),
+                0 0 40px rgba(212, 175, 55, 0.4);
+    transform: translate(-50%, -50%);
+    transition: transform 0.08s linear;
+    z-index: 9999;
+}
+
+/* Make circle bigger on hover clickable elements */
+a:hover ~ .cursor-circle,
+button:hover ~ .cursor-circle {
+    transform: translate(-50%, -50%) scale(1.6);
+}
