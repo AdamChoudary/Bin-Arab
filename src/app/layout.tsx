@@ -24,6 +24,10 @@ export const metadata: Metadata = {
   description: "Buy, sell, and invest with confidence in Bahria Islamabad's most prestigious properties. Expert builders and real estate consultants dedicated to luxury living.",
   keywords: ["Real Estate", "Bahria Town Islamabad", "Luxury Living", "Bin Arab Builders", "Property Investment"],
   authors: [{ name: "Bin Arab Real Estate" }],
+  icons: {
+    icon: '/images/logo.png',
+    apple: '/images/logo.png',
+  }
 };
 
 export const viewport = {
