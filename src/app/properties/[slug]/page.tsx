@@ -1,86 +1,88 @@
-'use client';
-
+"use client";
 import { useParams } from 'next/navigation';
-import { useEffect, useRef } from 'react';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 
 const propertyData: Record<string, any> = {
   apartments: {
-    title: 'Apartments, Houses & Villas',
-    mainTitle: 'Luxury Apartments, Houses & Villas',
-    description: 'Stylish and comfortable living spaces designed to suit every lifestyle, from modern apartments to luxurious villas. Located in prime areas of Bahria Islamabad, these properties offer world class amenities, security, and convenience.',
-    features: [
-      'Modern interior design',
-      'Prime locations',
-      '24/7 security & maintenance',
-      'Close to schools, markets, and parks'
-    ],
-    image: '/images/house.jpg',
-    subImages: ['/images/villa.jpg', '/images/plaza.jpg']
+    title: "Luxury Apartments",
+    mainTitle: "Premium Apartment Living",
+    description: "Discover a new standard of luxury with our curated selection of high-end apartments in Bahria Islamabad.",
+    image: "/images/house.jpg",
+    subImages: ["/images/plaza.jpg", "/images/villa.jpg"],
+    features: ["Prime Location", "24/7 Security", "Modern Amenities", "Spacious Layouts"]
+  },
+  villas: {
+    title: "Luxury Villas",
+    mainTitle: "Exclusive Villa Collections",
+    description: "Experience unparalleled privacy and elegance in our handcrafted luxury villas.",
+    image: "/images/villa.jpg",
+    subImages: ["/images/house.jpg", "/images/plaza.jpg"],
+    features: ["Private Garden", "Smart Home Ready", "Designer Interiors", "Premium Finishes"]
   },
   plots: {
-    title: 'Residential and Commercial Plots',
-    mainTitle: 'Prime Residential & Commercial Plots',
-    description: 'Prime plots available for building your dream home or establishing a profitable business venture. These plots are strategically located to maximize value and convenience, with flexible sizes to suit individual requirements.',
-    features: [
-      'Ideal for residential or commercial development',
-      'Near main roads and amenities',
-      'Secure gated communities',
-      'Easy financing options available'
-    ],
-    image: '/images/investmenttt.jpg',
-    subImages: ['/images/house.jpg', '/images/villa.jpg']
+    title: "Residential Plots",
+    mainTitle: "Prime Land Opportunities",
+    description: "Secure your future with prime residential plots in the most sought-after sectors of Bahria.",
+    image: "/images/investmenttt.jpg",
+    subImages: ["/images/house.jpg", "/images/villa.jpg"],
+    features: ["Ready for Possession", "Level Ground", "Excellent Connectivity", "Utility Ready"]
   },
   commercial: {
-    title: 'Commercial Spaces & Plazas',
-    mainTitle: 'Strategically Located Commercial Spaces',
-    description: 'Perfect for shops, offices, and thriving business hubs. These commercial properties are designed to help businesses flourish, with high visibility, accessibility, and modern infrastructure.',
-    features: [
-      'High foot traffic locations',
-      'Modern architecture & facilities',
-      'Secure and well maintained premises',
-      'Flexible leasing and investment options'
-    ],
-    image: '/images/plaza.jpg',
-    subImages: ['/images/building.jpg', '/images/villa.jpg']
+    title: "Commercial Spaces",
+    mainTitle: "Business & Retail Hubs",
+    description: "Expand your business horizons with strategically located commercial properties and plazas.",
+    image: "/images/plaza.jpg",
+    subImages: ["/images/house.jpg", "/images/villa.jpg"],
+    features: ["High Footfall", "Parking Facilities", "Main Boulevard Access", "Modern Infrastructure"]
   },
   sales: {
-    title: 'Property Sales',
-    mainTitle: 'Premium Property Sales Solutions',
-    description: 'We guide clients through buying and selling residential and commercial assets with complete transparency. Our expert team ensures you get the best market value for your properties.',
-    features: [
-      'Market valuation services',
-      'Legal documentation support',
-      'Wide network of buyers & sellers',
-      'Transparent transactions'
-    ],
-    image: '/images/sales-sub.jpg',
-    subImages: ['/images/house.jpg', '/images/villa.jpg']
+    title: "Property Sales",
+    mainTitle: "Professional Sales Solutions",
+    description: "Expert guidance for buying and selling premium real estate assets in Islamabad.",
+    image: "/images/property-sales.jpg",
+    subImages: ["/images/house.jpg", "/images/villa.jpg"],
+    features: ["Market Analysis", "Legal Support", "Fast Documentation", "Verified Properties"]
   },
   investment: {
-    title: 'Investment Consulting',
-    mainTitle: 'Strategic Investment Consulting',
-    description: 'Our consulting focuses on identifying high-potential opportunities backed by market research. We help you build a profitable real estate portfolio in Bahria Town.',
-    features: [
-      'ROI analysis & projections',
-      'Market trend reports',
-      'Portfolio management',
-      'Off-market opportunities'
-    ],
-    image: '/images/investment-sub.jpg',
-    subImages: ['/images/investmenttt.jpg', '/images/plaza.jpg']
+    title: "Investment Consulting",
+    mainTitle: "Strategic Real Estate Portfolios",
+    description: "Identify high-yield investment opportunities backed by data and market insights.",
+    image: "/images/investmenttt.jpg",
+    subImages: ["/images/plaza.jpg", "/images/house.jpg"],
+    features: ["ROI Projection", "Risk Assessment", "Market Trends", "Portfolio Management"]
   },
   rental: {
-    title: 'Rental Management',
-    mainTitle: 'Professional Rental Management',
-    description: 'We offer comprehensive rental management services designed to maximize returns while protecting your property. From tenant screening to maintenance, we handle it all.',
-    features: [
-      'Tenant screening & placement',
-      'Rent collection & reporting',
-      'Maintenance & inspections',
-      'Legal lease agreements'
-    ],
-    image: '/images/rental-sub.jpg',
-    subImages: ['/images/house.jpg', '/images/rentalll.jpg']
+    title: "Rental Management",
+    mainTitle: "Hassle-Free Rentals",
+    description: "Comprehensive management services for landlords and premium options for tenants.",
+    image: "/images/rentalll.jpg",
+    subImages: ["/images/house.jpg", "/images/villa.jpg"],
+    features: ["Tenant Screening", "Rent Collection", "Maintenance Support", "Legal Agreements"]
+  },
+  construction: {
+    title: "Construction",
+    mainTitle: "Modern Building Excellence",
+    description: "End-to-end construction services delivering quality, durability, and luxury.",
+    image: "/images/house.jpg",
+    subImages: ["/images/plaza.jpg", "/images/villa.jpg"],
+    features: ["Quality Control", "Timely Delivery", "Modern Design", "Sustainable Materials"]
+  },
+  renovation: {
+    title: "Renovation",
+    mainTitle: "Premium Remodeling",
+    description: "Transform your existing space into a masterpiece of modern luxury.",
+    image: "/images/villa.jpg",
+    subImages: ["/images/house.jpg", "/images/plaza.jpg"],
+    features: ["Interior Upgrade", "Space Optimization", "Material Selection", "Expert Craftsmen"]
+  },
+  designing: {
+    title: "Designing",
+    mainTitle: "Architectural Artistry",
+    description: "Innovative design solutions that blend functionality with breathtaking aesthetics.",
+    image: "/images/plaza.jpg",
+    subImages: ["/images/house.jpg", "/images/villa.jpg"],
+    features: ["3D Modeling", "Concept Design", "Material Planning", "Structural Integrity"]
   }
 };
 
@@ -88,84 +90,85 @@ export default function PropertyPage() {
   const params = useParams();
   const slug = params.slug as string;
   const data = propertyData[slug] || propertyData.apartments;
-  const navbarRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (navbarRef.current) {
-        navbarRef.current.classList.toggle('scrolled', window.scrollY > 50);
-      }
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   return (
-    <div className="bg-black min-h-screen text-white pt-5">
-      {/* NAVBAR */}
-      <nav className="navbar navbar-expand-lg navbar-dark fixed-top scrolled" ref={navbarRef}>
-        <div className="container">
-          <a className="navbar-brand" href="/">
-            <img src="/images/logo.png" alt="Logo" style={{ height: '60px' }} />
-          </a>
-          <div className="collapse navbar-collapse d-flex justify-content-end">
-            <ul className="navbar-nav">
-              <li className="nav-item"><a className="nav-link" href="/">Home</a></li>
-              <li className="nav-item"><a className="nav-link" href="/#properties">Properties</a></li>
-              <li className="nav-item"><a className="nav-link" href="/#about">About Us</a></li>
-              <li className="nav-item"><a className="nav-link" href="/#services">Services</a></li>
-              <li className="nav-item"><a className="nav-link" href="/#contact">Contact</a></li>
-              <li className="nav-item"><a className="nav-link" href="/blogs">Blogs</a></li>
-            </ul>
-          </div>
+    <div className="bg-black min-h-screen text-white">
+      <Navbar />
+
+      <div className="container mx-auto px-4 pt-32 md:pt-40 pb-24">
+        <div className="text-center mb-16">
+          <h1 className="text-gold uppercase tracking-[4px] font-medium text-[32px] md:text-[42px] mb-6">
+            {data.title}
+          </h1>
+          <div className="w-24 h-0.5 bg-gold mx-auto"></div>
         </div>
-      </nav>
 
-      <div className="container py-5 mt-5">
-        <h1 className="text-center text-gold mb-5 mt-3" style={{ fontSize: '3rem', fontWeight: 'bold' }}>{data.title}</h1>
-        <div className="gold-divider mx-auto mb-5"></div>
-
-        <div className="row g-5">
-          <div className="col-lg-7">
-            <div className="property-main-img mb-4">
-              <img src={data.image} alt={data.title} className="img-fluid rounded shadow-lg w-100" style={{ height: '500px', objectFit: 'cover', border: '2px solid var(--gold)' }} />
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+          {/* Main Media Section */}
+          <div className="lg:col-span-7">
+            <div className="relative mb-8 group">
+              <img 
+                src={data.image} 
+                alt={data.title} 
+                className="w-full h-[400px] md:h-[600px] object-cover brand-card !border-gold/20 grayscale-[10%]" 
+              />
+              <div className="absolute inset-0 border border-gold/10 pointer-events-none translate-x-4 translate-y-4 -z-10"></div>
             </div>
-            <div className="row g-3">
+            
+            <div className="grid grid-cols-2 gap-4">
               {data.subImages.map((img: string, idx: number) => (
-                <div className="col-6" key={idx}>
-                  <img src={img} alt="sub" className="img-fluid rounded shadow-sm w-100" style={{ height: '200px', objectFit: 'cover' }} />
+                <div key={idx} className="overflow-hidden brand-card !border-gold/10">
+                  <img 
+                    src={img} 
+                    alt="Property detail" 
+                    className="w-full h-[200px] md:h-[280px] object-cover transition-transform duration-1000 hover:scale-110 grayscale-[20%]" 
+                  />
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="col-lg-5">
-            <div className="property-info p-4 h-100">
-              <h2 className="text-white mb-4" style={{ fontWeight: 'bold' }}>{data.mainTitle}</h2>
-              <p className="text-gray mb-4" style={{ color: '#ccc', fontSize: '1.1rem', lineHeight: '1.8' }}>{data.description}</p>
+          {/* Info Section */}
+          <div className="lg:col-span-5">
+            <div className="brand-card p-8 md:p-12 sticky top-40 !border-gold/10 bg-white/5">
+              <div className="text-gold uppercase text-[10px] tracking-[4px] font-medium opacity-60 mb-6">
+                Project Overview
+              </div>
               
-              <ul className="list-unstyled mb-5">
-                {data.features.map((feature: string, idx: number) => (
-                  <li key={idx} className="mb-3 d-flex align-items-center">
-                    <span className="text-gold me-3" style={{ fontSize: '1.5rem' }}>•</span>
-                    <span style={{ fontSize: '1.1rem' }}>{feature}</span>
-                  </li>
-                ))}
-              </ul>
+              <h2 className="text-white text-[24px] md:text-[32px] font-medium leading-tight mb-6">
+                {data.mainTitle}
+              </h2>
+              
+              <p className="text-white/60 leading-[1.8] font-light text-[15px] mb-10">
+                {data.description}
+              </p>
+              
+              <div className="mb-10">
+                <div className="text-gold uppercase text-[10px] tracking-[4px] font-medium opacity-60 mb-6">
+                  Key Specifications
+                </div>
+                <ul className="space-y-4">
+                  {data.features.map((feature: string, idx: number) => (
+                    <li key={idx} className="flex items-center text-[14px] font-light text-white/80">
+                      <span className="text-gold mr-4 text-[18px]">—</span>
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+              </div>
 
-              <a href={`https://wa.me/923335965199?text=Interested in ${data.title}`} className="btn btn-gold px-5 py-3 fs-5 w-100 mt-auto">
-                Contact Us
+              <a 
+                href={`whatsapp://send?phone=923335965199&text=Interested in ${data.title}`} 
+                className="brand-button w-full text-center block"
+              >
+                Inquire via WhatsApp
               </a>
             </div>
           </div>
         </div>
       </div>
 
-      <footer className="footer-section mt-5">
-        <div className="container py-4 text-center">
-          <p className="mb-0">© 2026 Bin Arab Real Estate | All Rights Reserved</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

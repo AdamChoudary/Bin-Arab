@@ -3,6 +3,8 @@ import fs from 'fs/promises';
 import path from 'path';
 import { notFound } from 'next/navigation';
 import ReadingProgress from '@/components/ReadingProgress';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 
 async function getBlog(slug: string) {
   const filePath = path.join(process.cwd(), 'src/data/blogs.json');
@@ -24,27 +26,30 @@ export default async function BlogDetailPage({ params }: { params: { slug: strin
   }
 
   return (
-    <div className="bg-black min-h-screen pt-32 pb-20">
+    <div className="bg-black min-h-screen text-white font-poppins">
+      <Navbar />
       <ReadingProgress />
       
-      <div className="container">
-        <nav aria-label="breadcrumb" className="mb-5">
-          <ol className="breadcrumb">
-            <li className="breadcrumb-item"><Link href="/" className="text-gold text-decoration-none small letter-spacing-1">HOME</Link></li>
-            <li className="breadcrumb-item"><Link href="/blogs" className="text-gold text-decoration-none small letter-spacing-1">EDITORIAL</Link></li>
-            <li className="breadcrumb-item active text-light opacity-50 small letter-spacing-1" aria-current="page">{blog.title.toUpperCase()}</li>
+      <div className="container mx-auto px-4 pt-32 md:pt-40 pb-24">
+        <nav aria-label="breadcrumb" className="mb-12">
+          <ol className="flex items-center gap-4 text-[10px] tracking-[2px] uppercase list-none p-0 m-0">
+            <li><Link href="/" className="text-gold hover:text-white transition-colors">HOME</Link></li>
+            <li className="text-white/20">/</li>
+            <li><Link href="/blogs" className="text-gold hover:text-white transition-colors">EDITORIAL</Link></li>
+            <li className="text-white/20">/</li>
+            <li className="text-white/40 truncate max-w-[200px]" aria-current="page">{blog.title}</li>
           </ol>
         </nav>
 
-        <div className="row g-5">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
           {/* Left Column: Content */}
-          <div className="col-lg-7">
-            <h1 className="text-white display-4 fw-bold mb-4 lh-tight" style={{ fontFamily: 'var(--font-serif)' }}>
+          <div className="lg:col-span-7">
+            <h1 className="text-white mb-8 text-[32px] md:text-[36px] font-medium tracking-wide leading-tight">
               {blog.title}
             </h1>
             
-            <div className="d-flex align-items-center mb-5 text-gold small letter-spacing-2 fw-bold opacity-75 border-top border-bottom border-gold border-opacity-10 py-3">
-              <div className="me-4">
+            <div className="flex items-center mb-10 text-gold uppercase text-[10px] tracking-[3px] font-medium opacity-60 border-y border-gold/10 py-4">
+              <div className="mr-8">
                 PUBLISHED: {blog.date}
               </div>
               <div>
@@ -52,44 +57,48 @@ export default async function BlogDetailPage({ params }: { params: { slug: strin
               </div>
             </div>
 
-            <div className="blog-content">
+            <div className="blog-content text-white/80 leading-[1.9] font-light text-[17px]">
               <div 
                 dangerouslySetInnerHTML={{ __html: blog.content }}
               />
             </div>
 
-            <div className="mt-5 pt-5 border-top border-gold border-opacity-10">
-              <h4 className="text-gold mb-4 small letter-spacing-2 fw-bold">SHARE THIS INSIGHT</h4>
-              <div className="d-flex gap-3">
-                <button className="btn btn-gold-outline rounded-0 px-4 py-2">FACEBOOK</button>
-                <button className="btn btn-gold-outline rounded-0 px-4 py-2">TWITTER</button>
-                <button className="btn btn-gold-outline rounded-0 px-4 py-2">WHATSAPP</button>
+            <div className="mt-16 pt-10 border-t border-gold/10">
+              <h4 className="text-gold mb-6 uppercase text-[11px] tracking-[3px] font-medium opacity-60">Share This Insight</h4>
+              <div className="flex flex-wrap gap-4">
+                {['FACEBOOK', 'TWITTER', 'WHATSAPP'].map((platform) => (
+                  <button key={platform} className="border border-gold text-gold px-6 py-2 rounded-none text-[10px] tracking-[2px] font-medium transition-all duration-300 hover:bg-gold hover:text-black">
+                    {platform}
+                  </button>
+                ))}
               </div>
             </div>
           </div>
 
           {/* Right Column: Featured Image & Sidebar */}
-          <div className="col-lg-5">
-            <div className="sticky-top" style={{ top: '120px' }}>
-              <div className="position-relative mb-4">
-                <img src={blog.image} alt={blog.title} className="w-100 rounded-0 shadow-2xl" style={{ maxHeight: '700px', objectFit: 'cover' }} />
-                <div className="position-absolute top-0 start-0 w-100 h-100 border border-gold border-opacity-20 pointer-events-none" style={{ transform: 'translate(10px, 10px)', zIndex: -1 }}></div>
+          <div className="lg:col-span-5">
+            <div className="lg:sticky lg:top-40">
+              <div className="relative mb-12">
+                <img src={blog.image} alt={blog.title} className="w-full h-auto max-h-[700px] object-cover brightness-90 grayscale-[10%]" />
+                <div className="absolute top-0 left-0 w-full h-full border border-gold/10 pointer-events-none -z-10 translate-x-4 translate-y-4 hidden md:block"></div>
               </div>
               
-              <div className="p-4 bg-dark bg-opacity-50 border border-gold border-opacity-10 mt-5">
-                <h5 className="text-gold mb-3 small letter-spacing-2 fw-bold">WHY THIS MATTERS</h5>
-                <p className="text-light opacity-60 small lh-relaxed mb-0">
+              <div className="p-8 md:p-10 bg-white/5 border border-gold/10">
+                <h5 className="text-gold mb-4 uppercase text-[11px] tracking-[3px] font-medium opacity-60">Why This Matters</h5>
+                <p className="text-white/50 leading-relaxed text-[14px] font-light italic">
                   This editorial piece explores the critical intersections of luxury living and strategic investment in the heart of Islamabad's most prestigious developments.
                 </p>
               </div>
               
-              <Link href="/blogs" className="d-block mt-5 text-gold text-decoration-none small letter-spacing-2 fw-bold hover:translate-x-2 transition-transform">
-                ← BACK TO ALL EDITORIALS
+              <Link href="/blogs" className="group flex items-center mt-10 text-gold text-[11px] tracking-[3px] font-medium uppercase transition-all">
+                <span className="transition-transform duration-300 group-hover:-translate-x-2 mr-2">←</span> BACK TO ALL EDITORIALS
               </Link>
             </div>
           </div>
         </div>
       </div>
+
+      <Footer />
     </div>
   );
 }

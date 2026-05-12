@@ -1,11 +1,14 @@
-import type { Metadata } from "next";
-import { Poppins, Playfair_Display } from "next/font/google";
+import { Inter, Outfit, Playfair_Display } from "next/font/google";
 import "./globals.css";
 
-const poppins = Poppins({
+const inter = Inter({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  variable: "--font-poppins",
+  variable: "--font-inter",
+});
+
+const outfit = Outfit({
+  subsets: ["latin"],
+  variable: "--font-outfit",
 });
 
 const playfair = Playfair_Display({
@@ -14,9 +17,19 @@ const playfair = Playfair_Display({
   variable: "--font-playfair",
 });
 
+import type { Metadata } from "next";
+
 export const metadata: Metadata = {
-  title: "Bin Arab Real Estate & Builders | Bahria Islamabad",
-  description: "Luxury Living in Bahria Islamabad - Buy • Sell • Invest with Confidence",
+  title: "Bin Arab Real Estate & Builders | Luxury Living in Bahria Islamabad",
+  description: "Buy, sell, and invest with confidence in Bahria Islamabad's most prestigious properties. Expert builders and real estate consultants dedicated to luxury living.",
+  keywords: ["Real Estate", "Bahria Town Islamabad", "Luxury Living", "Bin Arab Builders", "Property Investment"],
+  authors: [{ name: "Bin Arab Real Estate" }],
+};
+
+export const viewport = {
+  themeColor: "#c4a45a",
+  width: "device-width",
+  initialScale: 1,
 };
 
 import Cursor from "@/components/Cursor";
@@ -30,7 +43,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${poppins.variable} ${playfair.variable} font-sans`}>
+      <body className={`${inter.variable} ${outfit.variable} ${playfair.variable} font-sans antialiased`}>
         <Navbar />
         <Cursor />
         <main>{children}</main>

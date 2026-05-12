@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import fs from 'fs/promises';
 import path from 'path';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 
 async function getBlogs() {
   const filePath = path.join(process.cwd(), 'src/data/blogs.json');
@@ -19,73 +21,84 @@ export default async function BlogsPage() {
   const otherBlogs = blogs.slice(1);
 
   return (
-    <div className="bg-black min-h-screen pt-32 pb-20">
-      <div className="container">
-        <div className="section-title text-center mb-5">
-          <h1 className="text-gold display-4 fw-bold mb-3" style={{ fontFamily: 'var(--font-serif)' }}>Our Insights & News</h1>
-          <div className="gold-divider mx-auto"></div>
-          <p className="text-light opacity-75 max-w-2xl mx-auto">Stay updated with the latest trends, investment opportunities, and property news in Islamabad and Rawalpindi.</p>
-        </div>
+    <div className="bg-black min-h-screen text-white font-poppins">
+      <Navbar />
+      
+      <div className="pt-32 md:pt-40 pb-24">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h1 className="text-gold mb-4 text-[32px] md:text-[38px] tracking-[3px] uppercase font-medium">Editorial Insights</h1>
+            <div className="w-20 h-0.5 bg-gold mx-auto mb-6"></div>
+            <p className="text-white/50 max-w-2xl mx-auto text-sm tracking-[1px] font-light">
+              Stay updated with the latest trends, investment opportunities, and property news in Islamabad and Rawalpindi.
+            </p>
+          </div>
 
-        {featuredBlog && (
-          <div className="row mb-5 g-0 rounded-4 overflow-hidden border border-gold border-opacity-10 bg-dark bg-opacity-50">
-            <div className="col-lg-7">
-              <div className="h-100 overflow-hidden">
+          {featuredBlog && (
+            <div className="grid grid-cols-1 lg:grid-cols-12 mb-16 golden-card bg-white/5 group overflow-hidden">
+              <div className="lg:col-span-7 h-full overflow-hidden">
                 <img 
                   src={featuredBlog.image} 
                   alt={featuredBlog.title} 
-                  className="w-100 h-100 object-fit-cover transition-transform duration-700 hover:scale-105"
-                  style={{ minHeight: '400px' }}
+                  className="w-full h-full min-h-[400px] object-cover transition-all duration-1000 ease-cinematic group-hover:scale-105 brightness-75 grayscale-[20%] group-hover:brightness-90 group-hover:grayscale-0"
                 />
               </div>
-            </div>
-            <div className="col-lg-5 p-5 d-flex flex-column justify-content-center">
-              <div className="text-gold small mb-3 letter-spacing-2 text-uppercase fw-bold opacity-75">
-                {featuredBlog.date} • Featured Post
+              <div className="lg:col-span-5 p-8 md:p-12 flex flex-col justify-center">
+                <div className="text-gold mb-4 uppercase text-[11px] tracking-[3px] font-medium opacity-60">
+                  {featuredBlog.date} • Featured Insight
+                </div>
+                <h2 className="text-gold mb-6 text-[24px] md:text-[28px] font-medium tracking-wide leading-tight">
+                  {featuredBlog.title}
+                </h2>
+                <p className="text-white/50 mb-10 text-[15px] leading-[1.8] font-light">
+                  {featuredBlog.excerpt}
+                </p>
+                <Link 
+                  href={`/blogs/${featuredBlog.slug}`} 
+                  className="inline-block bg-gold text-black py-3 px-8 text-center uppercase tracking-[2px] font-medium text-[11px] transition-all duration-300 hover:bg-gold-hover self-start"
+                >
+                  Read Full Insight
+                </Link>
               </div>
-              <h2 className="display-6 text-white mb-4 lh-tight" style={{ fontFamily: 'var(--font-serif)' }}>
-                {featuredBlog.title}
-              </h2>
-              <p className="text-light opacity-75 mb-5 fs-5">
-                {featuredBlog.excerpt}
-              </p>
-              <Link href={`/blogs/${featuredBlog.slug}`} className="btn btn-gold py-3 px-5 align-self-start rounded-0 text-uppercase letter-spacing-1">
-                Read Full Insight
-              </Link>
             </div>
-          </div>
-        )}
+          )}
 
-        <div className="row g-5">
-          {otherBlogs.map((blog: any) => (
-            <div className="col-md-6 col-lg-4" key={blog.id}>
-              <div className="blog-card h-100 d-flex flex-column rounded-0 border-0">
-                <div className="position-relative overflow-hidden" style={{ height: '280px' }}>
-                  <img src={blog.image} alt={blog.title} className="w-100 h-100 object-fit-cover transition-transform duration-500 hover:scale-110" />
-                  <div className="position-absolute bottom-0 start-0 bg-gold text-black px-4 py-2 small fw-bold letter-spacing-1">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
+            {otherBlogs.map((blog: any) => (
+              <div className="group flex flex-col bg-white/5 golden-card transition-all duration-600 ease-cinematic hover:-translate-y-2 hover:border-gold" key={blog.id}>
+                <div className="relative overflow-hidden h-[280px]">
+                  <img 
+                    src={blog.image} 
+                    alt={blog.title} 
+                    className="w-full h-full object-cover transition-all duration-1000 ease-cinematic group-hover:scale-110 brightness-75 grayscale-[20%] group-hover:brightness-90 group-hover:grayscale-0" 
+                  />
+                  <div className="absolute bottom-0 left-0 bg-gold text-black px-4 py-2 text-[10px] font-semibold tracking-[2px]">
                     {blog.date}
                   </div>
                 </div>
-                <div className="p-4 d-flex flex-column flex-grow-1 border-start border-end border-bottom border-gold border-opacity-10">
-                  <h3 className="h4 text-white mb-3 lh-base" style={{ fontFamily: 'var(--font-serif)' }}>{blog.title}</h3>
-                  <p className="text-light opacity-60 flex-grow-1 small lh-relaxed">{blog.excerpt}</p>
-                  <Link href={`/blogs/${blog.slug}`} className="btn btn-gold-outline w-100 mt-4 rounded-0 py-3">
+                <div className="p-6 flex flex-col flex-grow">
+                  <h3 className="text-gold mb-4 text-[18px] font-medium tracking-wide leading-snug">{blog.title}</h3>
+                  <p className="text-white/50 mb-8 text-[14px] leading-[1.7] font-light line-clamp-3">{blog.excerpt}</p>
+                  <Link 
+                    href={`/blogs/${blog.slug}`} 
+                    className="mt-auto w-full border border-gold text-gold py-3 text-center uppercase tracking-[2px] font-medium text-[10px] transition-all duration-300 hover:bg-gold hover:text-black"
+                  >
                     View Details
                   </Link>
                 </div>
               </div>
-            </div>
-          ))}
-          
-          {blogs.length === 0 && (
-            <div className="col-12 text-center py-5">
-              <div className="py-5 border border-gold border-opacity-20 rounded-4">
-                <h3 className="text-light opacity-30 fw-light">No editorial insights found.</h3>
+            ))}
+            
+            {blogs.length === 0 && (
+              <div className="col-span-full text-center py-24 border border-gold/10">
+                <h3 className="text-white/30 font-light tracking-[2px] text-lg uppercase">No editorial insights found.</h3>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
+
+      <Footer />
     </div>
   );
 }
