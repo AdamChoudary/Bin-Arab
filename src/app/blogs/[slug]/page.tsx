@@ -3,8 +3,6 @@ import fs from 'fs/promises';
 import path from 'path';
 import { notFound } from 'next/navigation';
 import ReadingProgress from '@/components/ReadingProgress';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
 
 async function getBlog(slug: string) {
   const filePath = path.join(process.cwd(), 'src/data/blogs.json');
@@ -27,7 +25,6 @@ export default async function BlogDetailPage({ params }: { params: { slug: strin
 
   return (
     <div className="bg-black min-h-screen text-white font-poppins">
-      <Navbar />
       <ReadingProgress />
       
       <div className="container mx-auto px-4 pt-32 md:pt-40 pb-24">
@@ -98,7 +95,6 @@ export default async function BlogDetailPage({ params }: { params: { slug: strin
         </div>
       </div>
 
-      <Footer />
     </div>
   );
 }

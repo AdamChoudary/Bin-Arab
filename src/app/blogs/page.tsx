@@ -1,8 +1,6 @@
 import Link from 'next/link';
 import fs from 'fs/promises';
 import path from 'path';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
 
 async function getBlogs() {
   const filePath = path.join(process.cwd(), 'src/data/blogs.json');
@@ -22,7 +20,6 @@ export default async function BlogsPage() {
 
   return (
     <div className="bg-black min-h-screen text-white font-poppins">
-      <Navbar />
       
       <div className="pt-32 md:pt-40 pb-24">
         <div className="container mx-auto px-4">
@@ -98,7 +95,6 @@ export default async function BlogsPage() {
         </div>
       </div>
 
-      <Footer />
     </div>
   );
 }

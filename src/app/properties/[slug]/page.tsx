@@ -1,7 +1,5 @@
 "use client";
 import { useParams } from 'next/navigation';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
 
 const propertyData: Record<string, any> = {
   apartments: {
@@ -93,7 +91,6 @@ export default function PropertyPage() {
 
   return (
     <div className="bg-black min-h-screen text-white">
-      <Navbar />
 
       <div className="container mx-auto px-4 pt-32 md:pt-40 pb-24">
         <div className="text-center mb-16">
@@ -168,7 +165,6 @@ export default function PropertyPage() {
         </div>
       </div>
 
-      <Footer />
     </div>
   );
 }
