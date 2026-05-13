@@ -50,7 +50,7 @@ export default async function BlogDetailPage({ params }: { params: { slug: strin
                 PUBLISHED: {blog.date}
               </div>
               <div>
-                BY: BIN ARAB EDITORIAL
+                BY: {blog.author || 'BIN ARAB EDITORIAL'}
               </div>
             </div>
 
@@ -59,6 +59,16 @@ export default async function BlogDetailPage({ params }: { params: { slug: strin
                 dangerouslySetInnerHTML={{ __html: blog.content }}
               />
             </div>
+
+            {blog.tags && blog.tags.length > 0 && (
+              <div className="mt-8 flex flex-wrap gap-2">
+                {blog.tags.map((tag: string) => (
+                  <span key={tag} className="text-[9px] tracking-[2px] uppercase border border-gold/20 px-3 py-1 text-gold/60">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
 
             <div className="mt-16 pt-10 border-t border-gold/10">
               <h4 className="text-gold mb-6 uppercase text-[11px] tracking-[3px] font-medium opacity-60">Share This Insight</h4>
@@ -83,7 +93,7 @@ export default async function BlogDetailPage({ params }: { params: { slug: strin
               <div className="p-8 md:p-10 bg-white/5 border border-gold/10">
                 <h5 className="text-gold mb-4 uppercase text-[11px] tracking-[3px] font-medium opacity-60">Why This Matters</h5>
                 <p className="text-white/50 leading-relaxed text-[14px] font-light italic">
-                  This editorial piece explores the critical intersections of luxury living and strategic investment in the heart of Islamabad's most prestigious developments.
+                  {blog.whyMatters || "This editorial piece explores the critical intersections of luxury living and strategic investment in the heart of Islamabad's most prestigious developments."}
                 </p>
               </div>
               

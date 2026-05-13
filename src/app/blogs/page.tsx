@@ -42,7 +42,7 @@ export default async function BlogsPage() {
               </div>
               <div className="lg:col-span-5 p-8 md:p-12 flex flex-col justify-center">
                 <div className="text-gold mb-4 uppercase text-[11px] tracking-[3px] font-medium opacity-60">
-                  {featuredBlog.date} • Featured Insight
+                  {featuredBlog.date} • BY {featuredBlog.author || 'BIN ARAB'}
                 </div>
                 <h2 className="text-gold mb-6 text-[24px] md:text-[28px] font-medium tracking-wide leading-tight">
                   {featuredBlog.title}
@@ -69,8 +69,8 @@ export default async function BlogsPage() {
                     alt={blog.title} 
                     className="w-full h-full object-cover transition-all duration-1000 ease-cinematic group-hover:scale-110 brightness-75 grayscale-[20%] group-hover:brightness-90 group-hover:grayscale-0" 
                   />
-                  <div className="absolute bottom-0 left-0 bg-gold text-black px-4 py-2 text-[10px] font-semibold tracking-[2px]">
-                    {blog.date}
+                  <div className="absolute bottom-0 left-0 bg-gold text-black px-4 py-2 text-[10px] font-semibold tracking-[2px] uppercase">
+                    {blog.date} • {blog.author || 'BIN ARAB'}
                   </div>
                 </div>
                 <div className="p-6 flex flex-col flex-grow">

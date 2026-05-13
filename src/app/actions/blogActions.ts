@@ -7,21 +7,56 @@ import { revalidatePath } from 'next/cache';
 const BLOGS_FILE = path.join(process.cwd(), 'src/data/blogs.json');
 const UPLOADS_DIR = path.join(process.cwd(), 'public/uploads');
 
+// Helper to ensure directory exists
+async function ensureDir(dir: string) {
+  try {
+    await fs.access(dir);
+  } catch {
+    await fs.mkdir(dir, { recursive: true });
+  }
+}
+
+// Helper to read blogs
+async function readBlogs() {
+  try {
+    // Ensure the data directory exists
+    const dataDir = path.dirname(BLOGS_FILE);
+    try {
+      await fs.access(dataDir);
+    } catch {
+      await fs.mkdir(dataDir, { recursive: true });
+      await fs.writeFile(BLOGS_FILE, '[]');
+      return [];
+    }
+
+    const data = await fs.readFile(BLOGS_FILE, 'utf-8');
+    if (!data || data.trim() === '') return [];
+    return JSON.parse(data);
+  } catch (error) {
+    console.error('Error reading blogs:', error);
+    return [];
+  }
+}
+
+// Helper to write blogs
+async function writeBlogs(blogs: any[]) {
+  await fs.writeFile(BLOGS_FILE, JSON.stringify(blogs, null, 2));
+}
+
 export async function addBlog(formData: FormData) {
   const title = formData.get('title') as string;
   const body = formData.get('body') as string;
   const imageFile = formData.get('image') as File;
+  const author = formData.get('author') as string || 'Bin Arab Editorial';
+  const whyMatters = formData.get('whyMatters') as string;
+  const excerpt = formData.get('excerpt') as string;
+  const tags = (formData.get('tags') as string || '').split(',').map(t => t.trim()).filter(Boolean);
 
   if (!title || !body || !imageFile) {
     throw new Error('Missing required fields');
   }
 
-  // Ensure uploads directory exists
-  try {
-    await fs.access(UPLOADS_DIR);
-  } catch {
-    await fs.mkdir(UPLOADS_DIR, { recursive: true });
-  }
+  await ensureDir(UPLOADS_DIR);
 
   // Save image
   const buffer = Buffer.from(await imageFile.arrayBuffer());
@@ -31,25 +66,108 @@ export async function addBlog(formData: FormData) {
 
   const imageUrl = `/uploads/${fileName}`;
 
-  // Update JSON
-  const blogsData = await fs.readFile(BLOGS_FILE, 'utf-8');
-  const blogs = JSON.parse(blogsData);
+  const blogs = await readBlogs();
 
   const newBlog = {
     id: Date.now(),
     title,
-    excerpt: body.substring(0, 150) + '...',
-    content: body.split('\n').map(p => `<p>${p}</p>`).join(''),
+    excerpt: excerpt || body.substring(0, 150) + '...',
+    content: body.split('\n').map(p => `<p>${p.trim()}</p>`).join(''),
     image: imageUrl,
     date: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
-    slug: title.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '')
+    slug: title.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, ''),
+    author,
+    whyMatters,
+    tags
   };
 
   blogs.unshift(newBlog);
-  await fs.writeFile(BLOGS_FILE, JSON.stringify(blogs, null, 2));
+  await writeBlogs(blogs);
 
   revalidatePath('/blogs');
   revalidatePath('/');
   
   return { success: true, slug: newBlog.slug };
+}
+
+export async function updateBlog(id: number, formData: FormData) {
+  const title = formData.get('title') as string;
+  const body = formData.get('body') as string;
+  const imageFile = formData.get('image') as File;
+  const author = formData.get('author') as string;
+  const whyMatters = formData.get('whyMatters') as string;
+  const excerpt = formData.get('excerpt') as string;
+  const tags = (formData.get('tags') as string || '').split(',').map(t => t.trim()).filter(Boolean);
+
+  const blogs = await readBlogs();
+  const index = blogs.findIndex((b: any) => b.id === id);
+
+  if (index === -1) {
+    throw new Error('Blog not found');
+  }
+
+  let imageUrl = blogs[index].image;
+
+  // Handle image update if a new file is provided
+  if (imageFile && imageFile.size > 0) {
+    await ensureDir(UPLOADS_DIR);
+    
+    // Optional: Delete old image if it's in /uploads/
+    if (blogs[index].image.startsWith('/uploads/')) {
+      const oldPath = path.join(process.cwd(), 'public', blogs[index].image);
+      try { await fs.unlink(oldPath); } catch (e) {}
+    }
+
+    const buffer = Buffer.from(await imageFile.arrayBuffer());
+    const fileName = `${Date.now()}-${imageFile.name.replace(/\s+/g, '-')}`;
+    const filePath = path.join(UPLOADS_DIR, fileName);
+    await fs.writeFile(filePath, buffer);
+    imageUrl = `/uploads/${fileName}`;
+  }
+
+  blogs[index] = {
+    ...blogs[index],
+    title,
+    excerpt: excerpt || body.substring(0, 150) + '...',
+    content: body.includes('<p>') ? body : body.split('\n').map(p => `<p>${p.trim()}</p>`).join(''),
+    image: imageUrl,
+    author: author || blogs[index].author,
+    whyMatters: whyMatters || blogs[index].whyMatters,
+    tags: tags.length > 0 ? tags : blogs[index].tags
+  };
+
+  await writeBlogs(blogs);
+
+  revalidatePath('/blogs');
+  revalidatePath(`/blogs/${blogs[index].slug}`);
+  revalidatePath('/');
+  
+  return { success: true };
+}
+
+export async function deleteBlog(id: number) {
+  const blogs = await readBlogs();
+  const blogToDelete = blogs.find((b: any) => b.id === id);
+
+  if (!blogToDelete) {
+    throw new Error('Blog not found');
+  }
+
+  // Delete associated image
+  if (blogToDelete.image.startsWith('/uploads/')) {
+    const filePath = path.join(process.cwd(), 'public', blogToDelete.image);
+    try { await fs.unlink(filePath); } catch (e) {}
+  }
+
+  const updatedBlogs = blogs.filter((b: any) => b.id !== id);
+  await writeBlogs(updatedBlogs);
+
+  revalidatePath('/blogs');
+  revalidatePath('/');
+  
+  return { success: true };
+}
+
+export async function getBlogs() {
+  return await readBlogs();
 }
