@@ -162,7 +162,7 @@ body.cursor-hover .cursor-dot {
     background-color: var(--gold) !important;
     color: black !important;
     padding: 0.6rem 2rem !important;
-    border-radius: 0.75rem !important;
+    border-radius: 9999px !important;
     text-transform: uppercase !important;
     font-size: 12px !important;
     font-weight: 600 !important;
@@ -193,7 +193,7 @@ body.cursor-hover .cursor-dot {
     background-color: transparent !important;
     color: white !important;
     border: 1.5px dashed white !important;
-    border-radius: 0.75rem !important;
+    border-radius: 9999px !important;
     padding: 0.8rem 1.8rem !important;
     text-transform: uppercase !important;
     font-size: 12px !important;

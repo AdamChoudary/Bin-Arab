@@ -48,7 +48,7 @@ export default function RequirementForm({
           </p>
           <button 
             onClick={() => setIsFormOpen(true)} 
-            className="w-full bg-gold text-black py-2.5 rounded-md text-[13px] font-bold hover:bg-white transition-all shadow-lg shadow-gold/5"
+            className="w-full bg-gold text-black py-2.5 !rounded-xl text-[12px] font-bold hover:bg-white transition-all shadow-lg shadow-gold/5"
           >
             Submit Your Requirement
           </button>
@@ -101,7 +101,7 @@ export default function RequirementForm({
 
           <button 
             onClick={handleSendToWhatsApp} 
-            className="w-full bg-gold text-black py-2.5 rounded-md text-[13px] font-bold hover:bg-white transition-all shadow-lg shadow-gold/5 disabled:opacity-50 disabled:grayscale"
+            className="w-full bg-gold text-black py-2.5 !rounded-full text-[13px] font-bold hover:bg-white transition-all shadow-lg shadow-gold/5 disabled:opacity-50 disabled:grayscale"
             disabled={!formData.budget || !formData.location || !formData.purpose}
           >
             Send Requirement
