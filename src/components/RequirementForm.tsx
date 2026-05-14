@@ -32,10 +32,12 @@ export default function RequirementForm({
       }`}
     >
       <button 
-        className="absolute top-4 right-4 text-white/50 hover:text-white text-2xl leading-none transition-colors" 
+        className="absolute top-5 right-5 text-white/30 hover:text-white transition-all hover:rotate-90" 
         onClick={() => { setShowRequirement(false); setIsFormOpen(false); }}
       >
-        &times;
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
       </button>
       
       {!isFormOpen ? (
@@ -46,7 +48,7 @@ export default function RequirementForm({
           </p>
           <button 
             onClick={() => setIsFormOpen(true)} 
-            className="w-full brand-button"
+            className="w-full bg-gold text-black py-2.5 rounded-md text-[13px] font-bold hover:bg-white transition-all shadow-lg shadow-gold/5"
           >
             Submit Your Requirement
           </button>
@@ -64,7 +66,7 @@ export default function RequirementForm({
               placeholder="e.g. 1.5 Crore" 
               value={formData.budget}
               onChange={handleInputChange}
-              className="w-full bg-white/5 border border-gold/30 rounded-xl px-3 py-2 text-white text-sm focus:outline-none focus:border-gold transition-colors"
+              className="w-full bg-white/5 border border-gold/20 rounded-xl px-4 py-3 text-white text-[13px] focus:outline-none focus:border-gold transition-all placeholder:text-white/10"
             />
           </div>
 
@@ -77,7 +79,7 @@ export default function RequirementForm({
               placeholder="Preferred Location" 
               value={formData.location}
               onChange={handleInputChange}
-              className="w-full bg-white/5 border border-gold/30 rounded-xl px-3 py-2 text-white text-sm focus:outline-none focus:border-gold transition-colors"
+              className="w-full bg-white/5 border border-gold/20 rounded-xl px-4 py-3 text-white text-[13px] focus:outline-none focus:border-gold transition-all placeholder:text-white/10"
             />
           </div>
 
@@ -88,7 +90,7 @@ export default function RequirementForm({
               name="purpose" 
               value={formData.purpose}
               onChange={handleInputChange}
-              className="w-full bg-white/5 border border-gold/30 rounded-xl px-3 py-2 text-white text-sm focus:outline-none focus:border-gold transition-colors appearance-none"
+              className="w-full bg-white/5 border border-gold/20 rounded-xl px-4 py-3 text-white text-[13px] focus:outline-none focus:border-gold transition-all appearance-none"
             >
               <option value="" className="bg-[#1a1a1a]">Select Purpose</option>
               <option value="Residential" className="bg-[#1a1a1a]">Residential</option>
@@ -99,7 +101,7 @@ export default function RequirementForm({
 
           <button 
             onClick={handleSendToWhatsApp} 
-            className="w-full brand-button disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full bg-gold text-black py-2.5 rounded-md text-[13px] font-bold hover:bg-white transition-all shadow-lg shadow-gold/5 disabled:opacity-50 disabled:grayscale"
             disabled={!formData.budget || !formData.location || !formData.purpose}
           >
             Send Requirement

@@ -13,7 +13,7 @@ export default function Properties() {
           <h2 className="text-gold uppercase tracking-[4px] font-medium text-[28px]">Property Collections</h2>
           <div className="w-20 h-0.5 bg-gold mx-auto mt-4"></div>
         </div>
-        
+          
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 justify-items-center">
           {properties.map((property) => (
             <div key={property.id} className="group relative brand-card flex flex-col h-full w-full max-w-[400px]">

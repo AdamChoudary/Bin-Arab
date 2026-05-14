@@ -27,95 +27,69 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ slu
   }
 
   return (
-    <div className="bg-black min-h-screen text-white font-poppins">
+    <div className="bg-black min-h-screen text-white font-sans">
       <ReadingProgress />
       
-      <div className="container mx-auto px-4 pt-32 md:pt-40 pb-24">
-        <nav aria-label="breadcrumb" className="mb-12">
-          <ol className="flex items-center gap-4 text-[10px] tracking-[2px] uppercase list-none p-0 m-0">
-            <li><Link href="/" className="text-gold hover:text-white transition-colors">HOME</Link></li>
-            <li className="text-white/20">/</li>
-            <li><Link href="/blogs" className="text-gold hover:text-white transition-colors">EDITORIAL</Link></li>
-            <li className="text-white/20">/</li>
-            <li className="text-white/40 truncate max-w-[200px]" aria-current="page">{blog.title}</li>
+      <div className="max-w-[1200px] mx-auto px-6 pt-32 md:pt-48 pb-24">
+        {/* Simple Breadcrumb */}
+        <nav aria-label="breadcrumb" className="mb-16">
+          <ol className="flex items-center gap-4 text-[10px] tracking-[4px] font-bold list-none p-0 m-0 opacity-40">
+            <li><Link href="/blogs" className="hover:text-gold transition-colors">JOURNAL</Link></li>
+            <li>/</li>
+            <li className="text-white truncate" aria-current="page">INSIGHT</li>
           </ol>
         </nav>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-start">
           {/* Left Column: Content */}
           <div className="lg:col-span-7">
-            <h1 className="text-white mb-8 text-[32px] md:text-[36px] font-medium tracking-wide leading-tight">
-              {blog.title}
-            </h1>
-            
-            <div className="flex items-center mb-10 text-gold uppercase text-[10px] tracking-[3px] font-medium opacity-60 border-y border-gold/10 py-4">
-              <div className="mr-8">
-                PUBLISHED: {blog.date}
+            <article className="animate-fadeInUp">
+              <div className="flex items-center gap-4 text-gold mb-8 text-[11px] tracking-[4px] font-bold">
+                <span>{blog.date}</span>
+                <span className="w-1 h-1 rounded-full bg-gold/30" />
+                <span>{blog.author || 'BIN ARAB'}</span>
               </div>
-              <div>
-                BY: {blog.author || 'BIN ARAB EDITORIAL'}
-              </div>
-            </div>
 
-            <div className="blog-content text-white/80 leading-[1.9] font-light text-[17px]">
-              <div 
-                dangerouslySetInnerHTML={{ __html: blog.content }}
-              />
-            </div>
+              <h1 className="text-white mb-12 text-[32px] md:text-[44px] font-serif font-bold tracking-tight leading-[1.1]">
+                {blog.title}
+              </h1>
 
-            {blog.tags && blog.tags.length > 0 && (
-              <div className="mt-8 flex flex-wrap gap-2">
-                {blog.tags.map((tag: string) => (
-                  <span key={tag} className="text-[9px] tracking-[2px] uppercase border border-gold/20 px-3 py-1 text-gold/60">
-                    {tag}
-                  </span>
-                ))}
+              <div className="blog-content text-white leading-[1.8] font-normal text-[18px] mb-16">
+                <div 
+                  dangerouslySetInnerHTML={{ __html: blog.content }}
+                  className="prose prose-invert prose-gold max-w-none"
+                />
               </div>
-            )}
 
-            <div className="mt-16 pt-10 border-t border-gold/10">
-              <h4 className="text-gold mb-6 uppercase text-[11px] tracking-[3px] font-medium opacity-60">Share This Insight</h4>
-              <div className="flex flex-wrap gap-4">
-                {['FACEBOOK', 'TWITTER', 'WHATSAPP'].map((platform) => (
-                  <button key={platform} className="border border-gold text-gold px-6 py-2 rounded-none text-[10px] tracking-[2px] font-medium transition-all duration-300 hover:bg-gold hover:text-black">
-                    {platform}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Right Column: Featured Image & Sidebar */}
-          <div className="lg:col-span-5">
-            <div className="lg:sticky lg:top-40">
-              <div className="relative mb-12">
-                <div className="relative w-full aspect-[3/4] max-h-[700px]">
-                  <Image 
-                    src={blog.image} 
-                    alt={blog.title} 
-                    fill 
-                    sizes="(max-width: 1024px) 100vw, 40vw"
-                    className="object-cover brightness-90 grayscale-[10%]" 
-                  />
-                </div>
-                <div className="absolute top-0 left-0 w-full h-full border border-gold/10 pointer-events-none -z-10 translate-x-4 translate-y-4 hidden md:block"></div>
-              </div>
-              
-              <div className="p-8 md:p-10 bg-white/5 border border-gold/10">
-                <h5 className="text-gold mb-4 uppercase text-[11px] tracking-[3px] font-medium opacity-60">Why This Matters</h5>
-                <p className="text-white/50 leading-relaxed text-[14px] font-light italic">
+              {/* Perspective Section - Simple & Integrated */}
+              <div className="py-10 border-y border-gold/10 mb-12">
+                <h4 className="text-gold mb-6 text-[11px] tracking-[4px] font-bold">THE PERSPECTIVE</h4>
+                <p className="text-white text-[16px] font-medium italic leading-relaxed opacity-80">
                   {blog.whyMatters || "This editorial piece explores the critical intersections of luxury living and strategic investment in the heart of Islamabad's most prestigious developments."}
                 </p>
               </div>
               
-              <Link href="/" className="group flex items-center mt-10 text-white text-[12px] tracking-[4px] font-black uppercase transition-all border-b border-white/20 pb-1 w-fit">
-                <span className="transition-transform duration-300 group-hover:-translate-x-2 mr-3">←</span> RETURN TO HOME
+              <Link href="/blogs" className="group flex items-center text-white text-[11px] tracking-[4px] font-bold transition-all border-b border-white/10 pb-2 w-fit">
+                <span className="transition-transform duration-300 group-hover:-translate-x-2 mr-4">←</span> RETURN TO JOURNAL
               </Link>
+            </article>
+          </div>
+
+          {/* Right Column: Featured Image */}
+          <div className="lg:col-span-5 lg:sticky lg:top-48">
+            <div className="relative w-full aspect-[4/5] rounded-md overflow-hidden shadow-2xl">
+              <Image 
+                src={blog.image} 
+                alt={blog.title} 
+                fill 
+                sizes="(max-width: 1024px) 100vw, 40vw"
+                className="object-cover" 
+                priority
+              />
             </div>
           </div>
         </div>
       </div>
-
     </div>
   );
 }

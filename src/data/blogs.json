@@ -1,5 +1,24 @@
 [
   {
+    "id": 1778750917474,
+    "title": "New plaza",
+    "excerpt": "New plaza...",
+    "content": "<p>New plaza</p>",
+    "image": "/uploads/1778750917471-plaza2.jpg",
+    "date": "May 14, 2026",
+    "slug": "new-plaza",
+    "author": "Bin Arab Editorial",
+    "whyMatters": "",
+    "tags": [],
+    "readTime": "1 MIN READ",
+    "stats": {
+      "views": 0,
+      "shares": 0
+    },
+    "publishedAt": "2026-05-14T09:28:37.474Z",
+    "lastUpdatedBy": "Bin Arab Admin"
+  },
+  {
     "id": 1,
     "title": "Why Bahria Enclave is the Best Investment in 2026",
     "excerpt": "Discover the top reasons why investors are flocking to Bahria Enclave Islamabad this year.",

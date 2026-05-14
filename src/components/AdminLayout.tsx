@@ -1,11 +1,25 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    // Restore system cursor for precise admin work
+    document.body.style.cursor = 'auto';
+    return () => {
+      document.body.style.cursor = 'none';
+    };
+  }, []);
+
+  // Close mobile menu on path change
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [pathname]);
 
   const navItems = [
     { 
@@ -78,82 +92,75 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   return (
     <div className="min-h-screen bg-[#020202] text-white font-sans flex flex-col md:flex-row">
-      {/* Sidebar */}
-      <aside className="w-full md:w-72 bg-[#080808] border-r border-gold/10 md:sticky md:top-0 md:h-screen z-40 flex flex-col">
-        <div className="p-10 border-b border-gold/5">
+      {/* Mobile Sidebar Overlay */}
+      <div className={`fixed inset-0 bg-black/60 backdrop-blur-sm z-40 transition-opacity duration-300 md:hidden ${isMobileMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`} 
+           onClick={() => setIsMobileMenuOpen(false)} />
+
+      {/* Sidebar - Desktop & Mobile */}
+      <aside className={`fixed md:sticky top-0 h-screen w-64 bg-[#050505] border-r border-gold/10 z-50 flex flex-col transition-transform duration-300 md:translate-x-0 ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}>
+        <div className="p-6 border-b border-gold/5 flex items-center justify-between">
           <Link href="/admin" className="block">
-            <h1 className="font-serif text-gold text-2xl tracking-[4px] font-bold">BIN ARAB</h1>
-            <div className="flex items-center gap-2 mt-2">
-              <span className="w-8 h-[1px] bg-gold/30" />
-              <p className="text-[9px] tracking-[4px] text-white/40 uppercase font-medium">Editorial Hub</p>
-            </div>
+            <h1 className="font-serif text-gold text-lg tracking-widest font-bold">BIN ARAB</h1>
+            <p className="text-[9px] tracking-[4px] text-white/40 uppercase font-medium mt-1">Journal Admin</p>
           </Link>
+          <button className="md:hidden text-white/40 hover:text-white" onClick={() => setIsMobileMenuOpen(false)}>
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+          </button>
         </div>
 
-        <nav className="mt-10 px-6 space-y-3 flex-1 overflow-y-auto scrollbar-none">
-          <p className="text-[9px] tracking-[3px] text-white/20 uppercase font-bold mb-6 px-4">System Management</p>
+        <nav className="mt-6 px-3 space-y-1 flex-1 overflow-y-auto scrollbar-none">
+          <p className="text-[10px] tracking-[2px] text-white/30 uppercase font-bold mb-4 px-3">Management</p>
           {navItems.map((item) => {
             const isActive = pathname === item.href;
             return (
               <Link 
                 key={item.label}
                 href={item.href}
-                className={`flex items-center gap-4 px-5 py-4 rounded-xl transition-all duration-500 group ${
+                className={`flex items-center gap-3 px-3 py-1.5 rounded-md transition-all duration-200 group relative ${
                   isActive 
-                    ? 'bg-gold/10 text-gold shadow-[inset_0_0_20px_rgba(196,164,90,0.05)] border border-gold/10' 
-                    : 'text-white/30 hover:bg-white/[0.03] hover:text-white border border-transparent'
+                    ? 'text-white bg-gold/10 shadow-sm border border-gold/20' 
+                    : 'text-white/60 hover:bg-white/[0.03] hover:text-white'
                 }`}
               >
-                <span className={`transition-transform duration-500 group-hover:scale-110 ${isActive ? 'text-gold opacity-100' : 'opacity-40 group-hover:opacity-100'}`}>
-                  {item.icon}
+                <span className={`transition-opacity duration-200 ${isActive ? 'opacity-100 text-gold' : 'opacity-60 group-hover:opacity-100'}`}>
+                  {React.cloneElement(item.icon as React.ReactElement<{ className?: string }>, { className: 'w-4 h-4' })}
                 </span>
-                <span className="text-[11px] tracking-[3px] font-medium">{item.label}</span>
-                {isActive && (
-                  <div className="ml-auto">
-                    <div className="w-1 h-4 rounded-full bg-gold shadow-[0_0_15px_#c4a45a]" />
-                  </div>
-                )}
+                <span className="text-[13px] font-medium tracking-tight">{item.label}</span>
               </Link>
             );
           })}
         </nav>
 
-        <div className="p-8">
-          <div className="p-6 rounded-2xl bg-gradient-to-br from-gold/10 to-transparent border border-gold/10 relative overflow-hidden group">
-            <div className="absolute -right-4 -top-4 w-16 h-16 bg-gold/5 rounded-full blur-2xl group-hover:bg-gold/10 transition-all duration-700" />
-            <p className="text-[9px] tracking-[3px] text-gold/60 uppercase mb-3 font-bold">System Status</p>
-            <div className="flex items-center gap-3">
-              <div className="relative">
-                <div className="w-2.5 h-2.5 rounded-full bg-green-500 shadow-[0_0_10px_#22c55e]" />
-                <div className="absolute inset-0 w-2.5 h-2.5 rounded-full bg-green-500 animate-ping opacity-40" />
-              </div>
-              <p className="text-[10px] font-bold tracking-widest text-white/80">CORE LIVE</p>
-            </div>
-          </div>
+        <div className="p-4 border-t border-gold/5">
+          <p className="text-[10px] text-white/20 uppercase tracking-[2px] text-center font-medium">Bin Arab Systems</p>
         </div>
       </aside>
+
+      {/* Mobile Top Bar */}
+      <div className="md:hidden flex items-center justify-between px-6 h-14 bg-[#050505] border-b border-gold/10 sticky top-0 z-40">
+        <h1 className="font-serif text-gold text-base tracking-widest font-bold">BIN ARAB</h1>
+        <button 
+          onClick={() => setIsMobileMenuOpen(true)}
+          className="w-8 h-8 rounded-md bg-white/5 border border-gold/20 flex items-center justify-center text-white"
+        >
+           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+        </button>
+      </div>
 
       {/* Main Content */}
       <main className="flex-1 flex flex-col h-screen overflow-hidden">
         {/* Top Header */}
-        <header className="h-24 border-b border-gold/5 bg-[#020202]/80 backdrop-blur-md px-12 flex items-center justify-between z-30">
-          <div className="flex items-center gap-4">
-            <div className="h-1 w-8 bg-gold rounded-full" />
-            <h2 className="text-[11px] tracking-[5px] uppercase text-white/50 font-bold">
-              {pathname === '/admin' ? 'System Overview' : 'Editorial Management'}
-            </h2>
+        <header className="h-12 border-b border-gold/5 bg-[#020202] px-8 flex items-center justify-between z-30 sticky top-0">
+          <div className="flex items-center gap-2 text-[12px] text-white/50 font-medium">
+            <Link href="/admin" className="hover:text-gold transition-colors">Admin</Link>
+            <span>/</span>
+            <span className="text-white tracking-tight">
+              {pathname === '/admin' ? 'Overview' : 'Editorial Archive'}
+            </span>
           </div>
           
-          <div className="flex items-center gap-8">
-            <div className="hidden lg:flex flex-col items-end">
-              <p className="text-[11px] font-bold text-white/90 tracking-widest">ADMINISTRATOR</p>
-              <p className="text-[9px] text-gold/60 tracking-widest uppercase">Full Access Tier</p>
-            </div>
-            <div className="w-12 h-12 rounded-full border border-gold/20 bg-gold/5 flex items-center justify-center shadow-lg text-gold">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-              </svg>
-            </div>
+          <div className="flex items-center gap-4">
+            <p className="text-[11px] font-bold text-white uppercase tracking-widest">Administrator</p>
           </div>
         </header>
 
@@ -172,19 +179,41 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
       <style jsx global>{`
         .admin-card {
-          background: linear-gradient(165deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
-          backdrop-filter: blur(20px);
-          border: 1px solid rgba(196, 164, 90, 0.08);
-          border-radius: 24px;
-          padding: 40px;
-          transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-          box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+          background: #080808;
+          border: 1px solid rgba(196, 164, 90, 0.15);
+          border-radius: 6px;
+          padding: 24px;
+          transition: all 0.2s ease;
         }
         .admin-card:hover {
-          border-color: rgba(196, 164, 90, 0.2);
-          transform: translateY(-8px);
-          background: linear-gradient(165deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.02) 100%);
-          box-shadow: 0 30px 60px rgba(0,0,0,0.4), 0 0 20px rgba(196, 164, 90, 0.05);
+          border-color: rgba(196, 164, 90, 0.3);
+          background: #0a0a0a;
+        }
+        .admin-label {
+          display: block;
+          font-size: 11px;
+          font-weight: 600;
+          color: white;
+          margin-bottom: 6px;
+          letter-spacing: 0.5px;
+        }
+        .admin-input {
+          width: 100%;
+          background: #0a0a0a;
+          border: 1px solid rgba(196, 164, 90, 0.2);
+          border-radius: 4px;
+          padding: 8px 12px;
+          color: white;
+          font-size: 13px;
+          transition: all 0.2s ease;
+        }
+        .admin-input:focus {
+          outline: none;
+          border-color: #c4a45a;
+          box-shadow: 0 0 0 2px rgba(196, 164, 90, 0.15);
+        }
+        .admin-input::placeholder {
+          color: rgba(255, 255, 255, 0.15);
         }
         .focus-gold:focus {
           border-color: #c4a45a !important;
