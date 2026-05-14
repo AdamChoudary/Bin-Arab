@@ -92,34 +92,45 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: 500;
 }
 
-/* CUSTOM CURSOR */
+/* CUSTOM CURSOR - HIGH PERFORMANCE SMOOTH */
 .cursor-dot {
     position: fixed;
-    width: 8px;
-    height: 8px;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 6px;
     background: var(--gold);
     border-radius: 50%;
     z-index: 9999;
     pointer-events: none;
-    transition: transform 0.1s ease;
+    will-change: transform;
 }
 
 .cursor-outline {
     position: fixed;
-    width: 40px;
-    height: 40px;
-    border: 1px solid var(--gold);
+    top: 0;
+    left: 0;
+    width: 32px;
+    height: 32px;
+    border: 1px solid rgba(196, 164, 90, 0.4);
     border-radius: 50%;
     z-index: 9998;
     pointer-events: none;
-    transition: width 0.3s, height 0.3s, background 0.3s, transform 0.15s ease;
+    will-change: transform;
+    transition: width 0.4s var(--ease-cinematic), height 0.4s var(--ease-cinematic), background 0.4s var(--ease-cinematic), border-color 0.4s var(--ease-cinematic);
 }
 
 body.cursor-hover .cursor-outline {
-    width: 60px;
-    height: 60px;
-    background: rgba(197, 160, 89, 0.1);
+    width: 55px;
+    height: 55px;
+    background: rgba(196, 164, 90, 0.08);
     border-color: var(--gold);
+    border-width: 1.5px;
+}
+
+body.cursor-hover .cursor-dot {
+    transform: scale(1.5) !important;
+    background: white;
 }
 
 @media (max-width: 768px) {
