@@ -3,12 +3,11 @@
 import { FaWhatsapp } from 'react-icons/fa';
 
 interface FloatingActionsProps {
-  isAtBottom: boolean;
   setShowRequirement: (show: boolean) => void;
   setIsFormOpen: (open: boolean) => void;
 }
 
-export default function FloatingActions({ isAtBottom, setShowRequirement, setIsFormOpen }: FloatingActionsProps) {
+export default function FloatingActions({ setShowRequirement, setIsFormOpen }: FloatingActionsProps) {
   return (
     <div className="fixed bottom-5 md:bottom-8 right-5 md:right-8 flex flex-row items-center gap-4 transition-all duration-500 z-[1000]">
       <button 

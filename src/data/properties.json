@@ -1,0 +1,35 @@
+[
+  {
+    "id": 1,
+    "title": "Elite Residential Villas",
+    "slug": "elite-residential-villas",
+    "description": "Exquisite luxury houses designed for the modern family. Featuring state-of-the-art architecture and premium finishes in the heart of Bahria Enclave.",
+    "cardImage": "/property collections/house.jpeg",
+    "detailImage": "/property collections/house2.jpg",
+    "category": "Residential",
+    "features": ["Smart Home Ready", "Private Garden", "Luxury Interiors", "24/7 Security"],
+    "location": "Sector A, Bahria Enclave"
+  },
+  {
+    "id": 2,
+    "title": "Grand Commercial Plazas",
+    "slug": "grand-commercial-plazas",
+    "description": "Strategic commercial spaces offering high ROI. Perfect for retail outlets, corporate offices, and luxury showrooms in prime business sectors.",
+    "cardImage": "/property collections/plaza.jpeg",
+    "detailImage": "/property collections/plaza2.jpg",
+    "category": "Commercial",
+    "features": ["High Visibility", "Ample Parking", "Fast Elevators", "Main Boulevard Access"],
+    "location": "Commercial Area, Bahria Enclave"
+  },
+  {
+    "id": 3,
+    "title": "Prime Investment Plots",
+    "slug": "prime-investment-plots",
+    "description": "Vast investment opportunities in developed plots. Secure your future with land in the most sought-after residential sectors.",
+    "cardImage": "/property collections/plots.jpeg",
+    "detailImage": "/property collections/plots2.jpg",
+    "category": "Plots",
+    "features": ["On-ground Plots", "Immediate Transfer", "Development Ready", "Utilities Available"],
+    "location": "Sector C, Bahria Enclave"
+  }
+]

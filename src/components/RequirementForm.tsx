@@ -12,7 +12,6 @@ interface RequirementFormProps {
   };
   handleInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
   handleSendToWhatsApp: () => void;
-  isAtBottom: boolean;
 }
 
 export default function RequirementForm({
@@ -22,15 +21,14 @@ export default function RequirementForm({
   setIsFormOpen,
   formData,
   handleInputChange,
-  handleSendToWhatsApp,
-  isAtBottom
+  handleSendToWhatsApp
 }: RequirementFormProps) {
-  if (!showRequirement) return null;
-
   return (
     <div 
-      className={`fixed right-5 md:right-8 bottom-20 md:bottom-24 w-[calc(100%-40px)] max-w-[320px] brand-card p-5 md:p-8 z-[1050] transition-all duration-700 ease-cinematic origin-bottom-right ${
-        isAtBottom ? 'scale-0 opacity-0 pointer-events-none' : 'scale-100 opacity-100 animate-fadeInUp'
+      className={`fixed right-5 md:right-8 bottom-20 md:bottom-24 w-[calc(100%-40px)] max-w-[320px] brand-card p-5 md:p-8 z-[1050] transition-all duration-700 ease-cinematic origin-bottom-right shadow-[0_20px_50px_rgba(0,0,0,0.5)] ${
+        showRequirement 
+          ? 'opacity-100 translate-y-0 scale-100 pointer-events-auto' 
+          : 'opacity-0 translate-y-20 scale-75 pointer-events-none'
       }`}
     >
       <button 

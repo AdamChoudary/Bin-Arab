@@ -1,23 +1,26 @@
 import Link from 'next/link';
 import fs from 'fs/promises';
 import path from 'path';
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import ReadingProgress from '@/components/ReadingProgress';
+import { Blog } from '@/types';
 
-async function getBlog(slug: string) {
+async function getBlog(slug: string): Promise<Blog | null> {
   const filePath = path.join(process.cwd(), 'src/data/blogs.json');
   try {
     const data = await fs.readFile(filePath, 'utf-8');
-    const blogs = JSON.parse(data);
-    return blogs.find((b: any) => b.slug === slug);
+    const blogs: Blog[] = JSON.parse(data);
+    return blogs.find((b) => b.slug === slug) || null;
   } catch (error) {
     console.error('Error reading blog:', error);
     return null;
   }
 }
 
-export default async function BlogDetailPage({ params }: { params: { slug: string } }) {
-  const blog = await getBlog(params.slug);
+export default async function BlogDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const blog = await getBlog(slug);
 
   if (!blog) {
     notFound();
@@ -86,7 +89,15 @@ export default async function BlogDetailPage({ params }: { params: { slug: strin
           <div className="lg:col-span-5">
             <div className="lg:sticky lg:top-40">
               <div className="relative mb-12">
-                <img src={blog.image} alt={blog.title} className="w-full h-auto max-h-[700px] object-cover brightness-90 grayscale-[10%]" />
+                <div className="relative w-full aspect-[3/4] max-h-[700px]">
+                  <Image 
+                    src={blog.image} 
+                    alt={blog.title} 
+                    fill 
+                    sizes="(max-width: 1024px) 100vw, 40vw"
+                    className="object-cover brightness-90 grayscale-[10%]" 
+                  />
+                </div>
                 <div className="absolute top-0 left-0 w-full h-full border border-gold/10 pointer-events-none -z-10 translate-x-4 translate-y-4 hidden md:block"></div>
               </div>
               
@@ -97,8 +108,8 @@ export default async function BlogDetailPage({ params }: { params: { slug: strin
                 </p>
               </div>
               
-              <Link href="/blogs" className="group flex items-center mt-10 text-gold text-[11px] tracking-[3px] font-medium uppercase transition-all">
-                <span className="transition-transform duration-300 group-hover:-translate-x-2 mr-2">←</span> BACK TO ALL EDITORIALS
+              <Link href="/" className="group flex items-center mt-10 text-white text-[12px] tracking-[4px] font-black uppercase transition-all border-b border-white/20 pb-1 w-fit">
+                <span className="transition-transform duration-300 group-hover:-translate-x-2 mr-3">←</span> RETURN TO HOME
               </Link>
             </div>
           </div>

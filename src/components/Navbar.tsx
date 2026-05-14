@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 
 export default function Navbar() {
@@ -34,7 +35,7 @@ export default function Navbar() {
 
   const navLinks = [
     { name: 'Home', href: '/' },
-    { name: 'Properties', href: '/#properties' },
+    { name: 'Properties', href: '/properties' },
     { name: 'About Us', href: '/#about' },
     { name: 'Services', href: '/#services' },
     { name: 'Blogs', href: '/blogs' },
@@ -48,11 +49,20 @@ export default function Navbar() {
       }`}
     >
       <div className="container mx-auto px-4 flex items-center justify-between">
-        <Link href="/" onClick={closeMenu} className="z-[1200]">
-          <img 
+        <Link 
+          href="/" 
+          onClick={closeMenu} 
+          className={`z-[1200] relative block transition-all duration-300 w-32 md:w-48 ${
+            scrolled ? 'h-10 md:h-12' : 'h-12 md:h-16'
+          }`}
+        >
+          <Image 
             src="/images/logo.png" 
             alt="Logo" 
-            className={`transition-all duration-300 ${scrolled ? 'h-10 md:h-12' : 'h-12 md:h-16'}`}
+            fill
+            sizes="(max-width: 768px) 128px, 192px"
+            className="object-contain"
+            priority
           />
         </Link>
         
@@ -72,7 +82,9 @@ export default function Navbar() {
         >
           <ul className="flex flex-col lg:flex-row items-center gap-8 lg:gap-4 list-none p-0 m-0 w-full lg:w-auto px-10 lg:px-0">
             {navLinks.map((link) => {
-              const isActive = pathname === link.href || (link.href === '/blogs' && pathname.startsWith('/blogs'));
+              const isActive = pathname === link.href || 
+                              (link.href === '/blogs' && pathname.startsWith('/blogs')) ||
+                              (link.href === '/properties' && pathname.startsWith('/properties'));
               return (
                 <li key={link.name} className="w-full lg:w-auto text-center">
                   <Link 

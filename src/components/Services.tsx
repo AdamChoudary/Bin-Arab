@@ -1,4 +1,4 @@
-'use client';
+import Image from 'next/image';
 
 const services = [
   { title: "Property Sales", img: "property-sales.jpg", desc: "We deliver premium property sales solutions, guiding clients through buying and selling residential and commercial assets.", link: "sales" },
@@ -22,10 +22,12 @@ export default function Services() {
           {services.map((service, index) => (
             <div key={index} className="group relative brand-card flex flex-col h-full w-full max-w-[400px]">
               <div className="overflow-hidden relative h-[240px]">
-                <img 
+                <Image 
                   src={`/images/${service.img}`} 
                   alt={service.title} 
-                  className="w-full h-full object-cover grayscale-[30%] brightness-75 transition-all duration-1000 ease-cinematic group-hover:scale-105 group-hover:grayscale-0 group-hover:brightness-100"
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  className="object-cover grayscale-[30%] brightness-75 transition-all duration-1000 ease-cinematic group-hover:scale-105 group-hover:grayscale-0 group-hover:brightness-100"
                 />
               </div>
               <div className="p-8 flex flex-col flex-grow">

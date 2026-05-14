@@ -1,5 +1,7 @@
 'use client';
 
+import Image from 'next/image';
+
 interface ShowcaseProps {
   activeSlide: number;
   setActiveSlide: (index: number) => void;
@@ -20,17 +22,21 @@ export default function Showcase({ activeSlide, setActiveSlide }: ShowcaseProps)
               className="flex transition-transform duration-1000 ease-cinematic" 
               style={{ transform: `translateX(-${activeSlide * 100}%)` }}
             >
-              <div className="min-w-full">
-                <img 
+              <div className="min-w-full relative h-[400px] md:h-[600px]">
+                <Image 
                   src="/images/building.jpg" 
-                  className="w-full h-[400px] md:h-[600px] object-cover brightness-[0.7]" 
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 1024px"
+                  className="object-cover brightness-[0.7]" 
                   alt="Building Construction" 
                 />
               </div>
-              <div className="min-w-full">
-                <img 
+              <div className="min-w-full relative h-[400px] md:h-[600px]">
+                <Image 
                   src="/images/map-design.jpg" 
-                  className="w-full h-[400px] md:h-[600px] object-cover brightness-[0.7]" 
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 1024px"
+                  className="object-cover brightness-[0.7]" 
                   alt="Map Design" 
                 />
               </div>

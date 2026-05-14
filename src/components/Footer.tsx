@@ -16,7 +16,7 @@ export default function Footer() {
 
           <div className="mb-8 md:mb-0">
             <h4 className="text-gold uppercase tracking-[2px] font-medium mb-6 text-lg">Our Services</h4>
-            <ul className="flex flex-col gap-3 list-none p-0 m-0 text-sm font-light">
+            <ul className="flex flex-col gap-1.5 list-none p-0 m-0 text-sm font-light">
               <li><Link href="/properties/sales" className="hover:text-gold transition-colors">- Exclusive Residential Property Sales</Link></li>
               <li><Link href="/properties/commercial" className="hover:text-gold transition-colors">- Premium Commercial Property Solutions</Link></li>
               <li><Link href="/properties/investment" className="hover:text-gold transition-colors">- Strategic Investment Consulting</Link></li>
@@ -27,7 +27,7 @@ export default function Footer() {
 
           <div>
             <h4 className="text-gold uppercase tracking-[2px] font-medium mb-6 text-lg">Contact Us</h4>
-            <div className="flex flex-col gap-3 text-sm font-light">
+            <div className="flex flex-col gap-1.5 text-sm font-light">
               <p>📍 Shop#4, Embassy Gardens, Sector C1, Bahria Enclave, Islamabad</p>
               <p>📞 +92 333 5965199</p>
               <p>📧 info@binarabrealestate.com</p>

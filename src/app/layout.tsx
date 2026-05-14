@@ -36,9 +36,6 @@ export const viewport = {
   initialScale: 1,
 };
 
-import Cursor from "@/components/Cursor";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 
 export default function RootLayout({
   children,
@@ -48,10 +45,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} ${outfit.variable} ${playfair.variable} font-sans antialiased`}>
-        <Navbar />
-        <Cursor />
-        <main>{children}</main>
-        <Footer />
+        {children}
       </body>
     </html>
   );

@@ -11,6 +11,7 @@ import FloatingActions from '@/components/FloatingActions';
 
 export default function Home() {
   const [showRequirement, setShowRequirement] = useState(false);
+  const [isManuallyClosed, setIsManuallyClosed] = useState(false);
   const [activeSlide, setActiveSlide] = useState(0);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [formData, setFormData] = useState({
@@ -19,31 +20,36 @@ export default function Home() {
     purpose: ''
   });
 
-  const [isAtBottom, setIsAtBottom] = useState(false);
-
   useEffect(() => {
-    // Initial check for mobile to hide form
+    // Initial check for desktop
     if (window.innerWidth > 768) {
       setShowRequirement(true);
     }
 
     const handleScroll = () => {
-      const scrollHeight = document.documentElement.scrollHeight;
-      const scrollPos = window.innerHeight + window.pageYOffset;
-      const bottom = scrollHeight - scrollPos < 200;
-      setIsAtBottom(bottom);
+      const scrollPosition = window.innerHeight + window.scrollY;
+      const threshold = document.documentElement.scrollHeight - 800; // Buffer for footer
+      
+      if (scrollPosition > threshold) {
+        // Automatically "submerge" (hide) when hitting the bottom
+        setShowRequirement(false);
+      } else if (window.innerWidth > 768 && !isManuallyClosed) {
+        // Only show back if it wasn't manually closed by the user
+        setShowRequirement(true);
+      }
     };
+
+    window.addEventListener('scroll', handleScroll);
 
     const interval = setInterval(() => {
       setActiveSlide((prev) => (prev === 0 ? 1 : 0));
     }, 4000);
 
-    window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
       clearInterval(interval);
     };
-  }, []);
+  }, [isManuallyClosed]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -68,18 +74,22 @@ export default function Home() {
       
       <RequirementForm 
         showRequirement={showRequirement}
-        setShowRequirement={setShowRequirement}
+        setShowRequirement={(show) => {
+          setShowRequirement(show);
+          if (!show) setIsManuallyClosed(true); // Mark as manually closed
+        }}
         isFormOpen={isFormOpen}
         setIsFormOpen={setIsFormOpen}
         formData={formData}
         handleInputChange={handleInputChange}
         handleSendToWhatsApp={handleSendToWhatsApp}
-        isAtBottom={isAtBottom}
       />
 
       <FloatingActions 
-        isAtBottom={isAtBottom}
-        setShowRequirement={setShowRequirement}
+        setShowRequirement={(show) => {
+          setShowRequirement(show);
+          if (show) setIsManuallyClosed(false); // Reset manual close when clicking the button
+        }}
         setIsFormOpen={setIsFormOpen}
       />
     </>
