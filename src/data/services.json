@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "title": "Property Sales",
+    "slug": "property-sales",
+    "description": "We deliver premium property sales solutions, guiding clients through buying and selling residential and commercial assets with absolute transparency.",
+    "cardImage": "/premium-services/propertysales-cover.jpg",
+    "detailImage": "/premium-services/property sales sub page.jpg",
+    "category": "Sales",
+    "highlights": ["Market Valuation", "Strategic Marketing", "Legal Documentation", "Closing Assistance"]
+  },
+  {
+    "id": 2,
+    "title": "Investment Consulting",
+    "slug": "investment-consulting",
+    "description": "Our investment consulting focuses on identifying high-potential opportunities backed by deep market research and financial analysis.",
+    "cardImage": "/premium-services/investment-cover.jpg",
+    "detailImage": "/premium-services/investment sub page.jpg",
+    "category": "Consulting",
+    "highlights": ["ROI Projections", "Risk Assessment", "Portfolio Management", "Strategic Exit Plans"]
+  },
+  {
+    "id": 3,
+    "title": "Rental Management",
+    "slug": "rental-management",
+    "description": "Comprehensive rental management services designed to maximize returns while protecting your property assets through vetted tenant placement.",
+    "cardImage": "/premium-services/rental cover.jpg",
+    "detailImage": "/premium-services/rental sub page.jpg",
+    "category": "Management",
+    "highlights": ["Tenant Screening", "Rent Collection", "Maintenance Supervision", "Lease Renewals"]
+  },
+  {
+    "id": 4,
+    "title": "Construction Services",
+    "slug": "construction-services",
+    "description": "End-to-end construction solutions, delivering high-quality residential and commercial projects with premium materials and engineering excellence.",
+    "cardImage": "/premium-services/consruction-cover.jpg",
+    "detailImage": "/premium-services/construction-subpage.jpg",
+    "category": "Engineering",
+    "highlights": ["Project Management", "Quality Assurance", "Sustainable Building", "Turnkey Solutions"]
+  },
+  {
+    "id": 5,
+    "title": "Premium Renovation",
+    "slug": "premium-renovation",
+    "description": "Transform your living spaces with our bespoke renovation and remodeling services, tailored to your aesthetic preferences and functional needs.",
+    "cardImage": "/premium-services/renovation-cover.jpg",
+    "detailImage": "/premium-services/renovation-subpage.jpg",
+    "category": "Refurbishment",
+    "highlights": ["Interior Remodeling", "Exterior Upgrades", "Smart Home Integration", "Luxury Finishes"]
+  },
+  {
+    "id": 6,
+    "title": "Architectural Design",
+    "slug": "architectural-design",
+    "description": "Our expert team provides architectural and interior design solutions to bring your vision to life with modern aesthetics and structural integrity.",
+    "cardImage": "/premium-services/design-cover.jpg",
+    "detailImage": "/premium-services/designing-subpage.jpg",
+    "category": "Design",
+    "highlights": ["Conceptual Drawing", "Interior Architecture", "3D Visualization", "Permit Assistance"]
+  }
+]

@@ -27,7 +27,7 @@ export default function Footer() {
 
           <div>
             <h4 className="text-gold uppercase tracking-[2px] font-medium mb-6 text-lg">Contact Us</h4>
-            <div className="flex flex-col gap-1.5 text-sm font-light">
+            <div className="flex flex-col gap-0 text-sm font-light leading-[1.1]">
               <p>📍 Shop#4, Embassy Gardens, Sector C1, Bahria Enclave, Islamabad</p>
               <p>📞 +92 333 5965199</p>
               <p>📧 info@binarabrealestate.com</p>

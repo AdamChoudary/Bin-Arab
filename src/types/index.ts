@@ -39,3 +39,14 @@ export interface Property {
   features: string[];
   location: string;
 }
+
+export interface Service {
+  id: number;
+  title: string;
+  slug: string;
+  description: string;
+  cardImage: string;
+  detailImage: string;
+  category: string;
+  highlights: string[];
+}

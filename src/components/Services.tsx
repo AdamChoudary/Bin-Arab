@@ -1,13 +1,9 @@
 import Image from 'next/image';
+import Link from 'next/link';
+import servicesData from '@/data/services.json';
+import { Service } from '@/types';
 
-const services = [
-  { title: "Property Sales", img: "property-sales.jpg", desc: "We deliver premium property sales solutions, guiding clients through buying and selling residential and commercial assets.", link: "sales" },
-  { title: "Investment Consulting", img: "investmenttt.jpg", desc: "Our investment consulting focuses on identifying high potential opportunities backed by market research.", link: "investment" },
-  { title: "Rental Management", img: "rentalll.jpg", desc: "We offer comprehensive rental management services designed to maximize returns while protecting your property.", link: "rental" },
-  { title: "Construction", img: "house.jpg", desc: "We provide end-to-end construction solutions, delivering high-quality residential and commercial projects.", link: "construction" },
-  { title: "Renovation", img: "villa.jpg", desc: "Transform your living spaces with our premium renovation and remodeling services, tailored to your preferences.", link: "renovation" },
-  { title: "Designing", img: "plaza.jpg", desc: "Our expert team provides architectural and interior design solutions to bring your vision to life.", link: "designing" }
-];
+const services = servicesData as Service[];
 
 export default function Services() {
   return (
@@ -19,11 +15,11 @@ export default function Services() {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 justify-items-center">
-          {services.map((service, index) => (
-            <div key={index} className="group relative brand-card flex flex-col h-full w-full max-w-[400px]">
+          {services.map((service) => (
+            <div key={service.id} className="group relative brand-card flex flex-col h-full w-full max-w-[400px]">
               <div className="overflow-hidden relative h-[240px]">
                 <Image 
-                  src={`/images/${service.img}`} 
+                  src={service.cardImage} 
                   alt={service.title} 
                   fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -33,16 +29,16 @@ export default function Services() {
               <div className="p-8 flex flex-col flex-grow">
                 <div className="mb-auto">
                   <h4 className="text-gold text-[16px] font-medium mb-6 uppercase tracking-[2px]">{service.title}</h4>
-                  <p className="leading-[1.8] font-light text-[14px] mb-12">
-                    {service.desc}
+                  <p className="leading-[1.8] font-light text-[14px] mb-12 text-white/70">
+                    {service.description}
                   </p>
                 </div>
-                <a 
-                  href={`/properties/${service.link}`} 
+                <Link 
+                  href={`/services/${service.slug}`} 
                   className="brand-button inline-block mx-auto"
                 >
                   Details
-                </a>
+                </Link>
               </div>
             </div>
           ))}
