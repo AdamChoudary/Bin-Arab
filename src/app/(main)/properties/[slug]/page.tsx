@@ -1,10 +1,34 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import propertiesData from '@/data/properties.json';
 import { Property } from '@/types';
+import { buildMetadata } from '@/lib/seo';
+import JsonLd from '@/components/JsonLd';
+import { breadcrumbLd, propertyLd } from '@/lib/structuredData';
 
 const properties = propertiesData as Property[];
+
+export function generateStaticParams() {
+  return properties.map((p) => ({ slug: p.slug }));
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const property = properties.find((p) => p.slug === slug);
+
+  if (!property) {
+    return buildMetadata({ title: 'Property Not Found', path: `/properties/${slug}`, noIndex: true });
+  }
+
+  return buildMetadata({
+    title: `${property.title} — ${property.location}`,
+    description: property.description,
+    path: `/properties/${property.slug}`,
+    image: property.detailImage,
+  });
+}
 
 export default async function PropertyDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -16,6 +40,16 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 
   return (
     <main className="min-h-screen bg-[#020202] pt-32 pb-32">
+      <JsonLd
+        data={[
+          breadcrumbLd([
+            { name: 'Home', path: '/' },
+            { name: 'Properties', path: '/properties' },
+            { name: property.title, path: `/properties/${property.slug}` },
+          ]),
+          propertyLd(property),
+        ]}
+      />
       <div className="max-w-[1600px] mx-auto px-6">
         {/* High-Visibility Navigation back to Landing Page */}
         <Link 

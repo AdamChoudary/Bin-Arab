@@ -1,97 +1,43 @@
-'use client';
+import type { Metadata } from 'next';
+import HomeClient from './HomeClient';
+import JsonLd from '@/components/JsonLd';
+import { buildMetadata, SITE } from '@/lib/seo';
+import { faqLd } from '@/lib/structuredData';
 
-import { useEffect, useState } from 'react';
-import Hero from '@/components/Hero';
-import Properties from '@/components/Properties';
-import Services from '@/components/Services';
-import About from '@/components/About';
-import Showcase from '@/components/Showcase';
-import RequirementForm from '@/components/RequirementForm';
-import FloatingActions from '@/components/FloatingActions';
+export const metadata: Metadata = buildMetadata({
+  title: 'Bin Arab Real Estate & Builders | Luxury Living in Bahria Islamabad',
+  titleAbsolute: true,
+  description:
+    "Bin Arab Real Estate & Builders helps you buy, sell, rent, invest, build, and renovate luxury homes, plazas, and plots in Bahria Enclave, Islamabad — with complete transparency since 2016.",
+  path: '/',
+});
+
+const faqs = [
+  {
+    question: 'Where is Bin Arab Real Estate & Builders located?',
+    answer: `${SITE.name} is based at ${SITE.address.street}, ${SITE.address.locality}, Pakistan. You can reach the office Monday to Saturday, 10:00 AM to 7:00 PM.`,
+  },
+  {
+    question: 'What services does Bin Arab Real Estate & Builders offer?',
+    answer:
+      'We offer property sales, investment consulting, rental management, construction services, premium renovation, and architectural design across Bahria Enclave and Bahria Town, Islamabad.',
+  },
+  {
+    question: 'What types of properties can I buy through Bin Arab?',
+    answer:
+      'We deal in luxury residential villas, grand commercial plazas, and prime investment plots in the most sought-after sectors of Bahria Enclave, Islamabad.',
+  },
+  {
+    question: 'How can I contact Bin Arab Real Estate & Builders?',
+    answer: `Call or WhatsApp ${SITE.phoneDisplay}, or email ${SITE.email} to speak with a property consultant.`,
+  },
+];
 
 export default function Home() {
-  const [showRequirement, setShowRequirement] = useState(false);
-  const [isManuallyClosed, setIsManuallyClosed] = useState(false);
-  const [activeSlide, setActiveSlide] = useState(0);
-  const [isFormOpen, setIsFormOpen] = useState(false);
-  const [formData, setFormData] = useState({
-    budget: '',
-    location: '',
-    purpose: ''
-  });
-
-  useEffect(() => {
-    // Initial check for desktop
-    if (window.innerWidth > 768) {
-      setShowRequirement(true);
-    }
-
-    const handleScroll = () => {
-      const scrollPosition = window.innerHeight + window.scrollY;
-      const threshold = document.documentElement.scrollHeight - 800; // Buffer for footer
-      
-      if (scrollPosition > threshold) {
-        // Automatically "submerge" (hide) when hitting the bottom
-        setShowRequirement(false);
-      } else if (window.innerWidth > 768 && !isManuallyClosed) {
-        // Only show back if it wasn't manually closed by the user
-        setShowRequirement(true);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-
-    const interval = setInterval(() => {
-      setActiveSlide((prev) => (prev === 0 ? 1 : 0));
-    }, 4000);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      clearInterval(interval);
-    };
-  }, [isManuallyClosed]);
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSendToWhatsApp = () => {
-    const { budget, location, purpose } = formData;
-    if (!budget || !location || !purpose) return;
-
-    const text = `*New Requirement Received*\n\n*Budget:* ${budget}\n*Location:* ${location}\n*Purpose:* ${purpose}`;
-    const whatsappUrl = `whatsapp://send?phone=923335965199&text=${encodeURIComponent(text)}`;
-    window.location.href = whatsappUrl;
-  };
-
   return (
     <>
-      <Hero />
-      <Properties />
-      <Services />
-      <About />
-      <Showcase activeSlide={activeSlide} setActiveSlide={setActiveSlide} />
-      
-      <RequirementForm 
-        showRequirement={showRequirement}
-        setShowRequirement={(show) => {
-          setShowRequirement(show);
-          if (!show) setIsManuallyClosed(true); // Mark as manually closed
-        }}
-        isFormOpen={isFormOpen}
-        setIsFormOpen={setIsFormOpen}
-        formData={formData}
-        handleInputChange={handleInputChange}
-        handleSendToWhatsApp={handleSendToWhatsApp}
-      />
-
-      <FloatingActions 
-        setShowRequirement={(show) => {
-          setShowRequirement(show);
-          if (show) setIsManuallyClosed(false); // Reset manual close when clicking the button
-        }}
-        setIsFormOpen={setIsFormOpen}
-      />
+      <JsonLd data={faqLd(faqs)} />
+      <HomeClient />
     </>
   );
 }

@@ -1,21 +1,54 @@
 import Link from 'next/link';
+import { cache } from 'react';
+import type { Metadata } from 'next';
 import fs from 'fs/promises';
 import path from 'path';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import ReadingProgress from '@/components/ReadingProgress';
 import { Blog } from '@/types';
+import { buildMetadata } from '@/lib/seo';
+import JsonLd from '@/components/JsonLd';
+import { articleLd, breadcrumbLd } from '@/lib/structuredData';
 
-async function getBlog(slug: string): Promise<Blog | null> {
+const getBlogs = cache(async (): Promise<Blog[]> => {
   const filePath = path.join(process.cwd(), 'src/data/blogs.json');
   try {
     const data = await fs.readFile(filePath, 'utf-8');
-    const blogs: Blog[] = JSON.parse(data);
-    return blogs.find((b) => b.slug === slug) || null;
+    return JSON.parse(data);
   } catch (error) {
-    console.error('Error reading blog:', error);
-    return null;
+    console.error('Error reading blogs:', error);
+    return [];
   }
+});
+
+const getBlog = cache(async (slug: string): Promise<Blog | null> => {
+  const blogs = await getBlogs();
+  return blogs.find((b) => b.slug === slug) || null;
+});
+
+export async function generateStaticParams() {
+  const blogs = await getBlogs();
+  return blogs.map((b) => ({ slug: b.slug }));
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const blog = await getBlog(slug);
+
+  if (!blog) {
+    return buildMetadata({ title: 'Insight Not Found', path: `/blogs/${slug}`, noIndex: true });
+  }
+
+  return buildMetadata({
+    title: blog.title,
+    description: blog.excerpt || `${blog.title} — insights from the Bin Arab Real Estate journal.`,
+    path: `/blogs/${blog.slug}`,
+    image: blog.image,
+    type: 'article',
+    publishedTime: blog.publishedAt,
+    authors: blog.author ? [blog.author] : undefined,
+  });
 }
 
 export default async function BlogDetailPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -28,6 +61,16 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ slu
 
   return (
     <div className="bg-black min-h-screen text-white font-sans">
+      <JsonLd
+        data={[
+          breadcrumbLd([
+            { name: 'Home', path: '/' },
+            { name: 'Journal', path: '/blogs' },
+            { name: blog.title, path: `/blogs/${blog.slug}` },
+          ]),
+          articleLd(blog),
+        ]}
+      />
       <ReadingProgress />
       
       <div className="max-w-[1200px] mx-auto px-6 pt-32 md:pt-48 pb-24">

@@ -1,10 +1,34 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import servicesData from '@/data/services.json';
 import { Service } from '@/types';
+import { buildMetadata } from '@/lib/seo';
+import JsonLd from '@/components/JsonLd';
+import { breadcrumbLd, serviceLd } from '@/lib/structuredData';
 
 const services = servicesData as Service[];
+
+export function generateStaticParams() {
+  return services.map((s) => ({ slug: s.slug }));
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const service = services.find((s) => s.slug === slug);
+
+  if (!service) {
+    return buildMetadata({ title: 'Service Not Found', path: `/services/${slug}`, noIndex: true });
+  }
+
+  return buildMetadata({
+    title: `${service.title} — ${service.category} Services in Islamabad`,
+    description: service.description,
+    path: `/services/${service.slug}`,
+    image: service.detailImage,
+  });
+}
 
 export default async function ServiceDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -16,6 +40,16 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
 
   return (
     <main className="min-h-screen bg-[#020202] pt-32 pb-32">
+      <JsonLd
+        data={[
+          breadcrumbLd([
+            { name: 'Home', path: '/' },
+            { name: 'Services', path: '/services' },
+            { name: service.title, path: `/services/${service.slug}` },
+          ]),
+          serviceLd(service),
+        ]}
+      />
       <div className="max-w-[1600px] mx-auto px-6">
         {/* Navigation back to Landing Page */}
         <Link 

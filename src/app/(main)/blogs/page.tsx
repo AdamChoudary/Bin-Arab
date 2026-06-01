@@ -1,8 +1,19 @@
 import Link from 'next/link';
+import type { Metadata } from 'next';
 import fs from 'fs/promises';
 import path from 'path';
 import Image from 'next/image';
 import { Blog } from '@/types';
+import { buildMetadata } from '@/lib/seo';
+import JsonLd from '@/components/JsonLd';
+import { breadcrumbLd, itemListLd } from '@/lib/structuredData';
+
+export const metadata: Metadata = buildMetadata({
+  title: 'Bin Arab Journal — Real Estate Insights & Market Editorial',
+  description:
+    'Curated perspectives on luxury living and strategic property investment in Bahria Enclave and Bahria Town, Islamabad, from the Bin Arab Real Estate editorial team.',
+  path: '/blogs',
+});
 
 async function getBlogs(): Promise<Blog[]> {
   const filePath = path.join(process.cwd(), 'src/data/blogs.json');
@@ -17,12 +28,22 @@ async function getBlogs(): Promise<Blog[]> {
 
 export default async function BlogsPage() {
   const blogs = await getBlogs();
-  const featuredBlog = blogs[0];
-  const otherBlogs = blogs.slice(1);
 
   return (
     <div className="bg-black min-h-screen text-white font-poppins">
-      
+      <JsonLd
+        data={[
+          breadcrumbLd([
+            { name: 'Home', path: '/' },
+            { name: 'Journal', path: '/blogs' },
+          ]),
+          itemListLd(
+            'Bin Arab Journal',
+            blogs.map((b) => ({ title: b.title, path: `/blogs/${b.slug}` }))
+          ),
+        ]}
+      />
+
       <div className="pt-32 md:pt-40 pb-24">
         <div className="container mx-auto px-4">
           <div className="text-center mb-24">
